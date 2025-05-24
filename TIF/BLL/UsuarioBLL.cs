@@ -10,8 +10,8 @@ namespace BLL
 {
     public class UsuarioBLL
     {
-        public BE.Usuario obtener(string username) {
-            return UsuarioDAL.obtener(username);
+        public Usuario validarUsuario(string username, string password) {
+            return UsuarioDAL.validarUsuario(username, password);
         }
 
 
