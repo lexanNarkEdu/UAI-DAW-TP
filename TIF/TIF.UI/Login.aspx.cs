@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BE;
 using BLL;
+using Services;
 
 namespace TIF.UI
 {
@@ -18,23 +19,41 @@ namespace TIF.UI
 
         protected void ingresarButton_Click(object sender, EventArgs e)
         {
-            string username = usuarioTextbox.Text.Trim();
-            string password = passwordTextbox.Text.Trim();
-
+            
+            EncriptadorService encriptador = EncriptadorService.GetEncriptadorService();
+            string username = encriptador.EncriptarAES(usuarioTextbox.Text.Trim());
+            string password = encriptador.EncriptarMD5(passwordTextbox.Text.Trim());
             UsuarioBLL usuarioBLL = new UsuarioBLL();
-            Usuario usuario = usuarioBLL.validarUsuario(username, password); 
 
-            if (usuario == null)
+            try {
+
+                Usuario usuario = usuarioBLL.obtenerUsuario(username);
+                if (usuario == null ) {
+                    throw new UsuarioInvalidoException();
+                }
+                if (usuario.Bloqueado) { 
+                    throw new UsuarioBloqueadoException();
+                }
+                if (!usuario.Password.Equals(password))
+                {
+                    usuarioBLL.loginInvalido(usuario);
+                    throw new UsuarioInvalidoException();
+                }
+                else { 
+                    usuarioBLL.loginValido(usuario);
+                }
+
+                Session["Usuario"] = usuario.Nombre;
+                Session["Apellido"] = usuario.Apellido;
+                Response.Redirect("Home.aspx");
+
+            }
+            catch (Exception ex)
             {
-                Response.Write("<script>alert('Usuario no existe o password es incorrecto');</script>");
+                Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
                 return;
             }
-            else
-            {
-                string alert = "<script>alert('Usuario es " + usuario.Nombre + " y apellido es " + usuario.Apellido + "');</script>";
-                Response.Write(alert);
-            }
-            
+
         }
 
         protected void newUser_Click(object sender, EventArgs e)

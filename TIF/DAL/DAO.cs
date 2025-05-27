@@ -81,5 +81,24 @@ namespace DAL
 
         }
 
+        public int ExecuteNonQuery(string pCommandText)
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand(pCommandText, miConnection);
+                miConnection.Open();
+                return command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                if (miConnection.State != ConnectionState.Closed)
+                    miConnection.Close();
+            }
+        }
+
     }
 }
