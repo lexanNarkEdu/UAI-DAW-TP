@@ -44,8 +44,6 @@
   <ItemGroup>
     <Compile Include="DAO.Wrapped.cs" />
     <Compile Include="BaseMapper.cs" />
-    <Compile Include="BitacoraDAL.cs" />
-    <Compile Include="Mappers\BitacoraMapper.cs" />
     <Compile Include="DAO.cs" />
     <Compile Include="EventosDAL.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />

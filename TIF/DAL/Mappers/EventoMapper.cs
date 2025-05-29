@@ -14,9 +14,11 @@ namespace DAL.Mappers
             return new Evento()
             {
                 Id = Convert.ToInt32(row["evento_id"].ToString()),
-                Nombre = (EventoTipoEnum)Enum.Parse(typeof(EventoTipoEnum), row["evento_nombre"].ToString()),                
+                UsuarioUsername = row["evento_usuario_username"].ToString(),
+                Nombre = (EventoTipoEnum)Enum.Parse(typeof(EventoTipoEnum), row["evento_nombre"].ToString()),
                 Descripcion = row["evento_descripcion"].ToString(),
-                CriticidadId = (EventoCriticidadEnum)Enum.Parse(typeof(EventoCriticidadEnum), row["evento_criticidad_id"].ToString())
+                CriticidadId = (EventoCriticidadEnum)Convert.ToInt32(row["evento_criticidad_id"].ToString()),
+                FechaHora = Convert.ToDateTime(row["evento_fecha_hora"].ToString())
             };
         }
     }

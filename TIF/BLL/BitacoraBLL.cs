@@ -1,34 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using BE;
-using DAL;
 
 namespace BLL
 {
     public class BitacoraBLL
     {
-        private readonly BitacoraDAL _dal;
         private readonly EventoBLL _eventosBLL;
 
         public BitacoraBLL()
         {
-            _dal = new BitacoraDAL();
             _eventosBLL = new EventoBLL();
         }
 
-        public int RegistrarEvento(EventoTipoEnum tipoEvento, string username)
+        public int RegistrarEvento(EventoTipoEnum tipoEvento, string username, string descripcion = null, EventoCriticidadEnum criticidad = EventoCriticidadEnum.Baja)
         {
             try
             {
-                // Buscar el evento por nombre usando el enum
-                var evento = _eventosBLL.ObtenerPorNombre(tipoEvento.ToString());
-                if (evento == null)
-                    throw new Exception($"El evento '{tipoEvento}' no existe en el sistema");
-
-                // Crear registro de bitácora
-                var bitacora = new Bitacora(evento.Id, username);
-
-                return _dal.RegistrarEvento(bitacora);
+                return _eventosBLL.RegistrarEvento(username, tipoEvento, descripcion, criticidad);
             }
             catch (Exception ex)
             {
@@ -36,56 +25,38 @@ namespace BLL
             }
         }
 
-        public int RegistrarEvento(int eventoId, string username)
+        public List<Evento> ObtenerTodos()
         {
-            try
-            {
-                // Verificar que el evento existe
-                var evento = _eventosBLL.ObtenerPorId(eventoId);
-                if (evento == null)
-                    throw new Exception($"El evento con ID {eventoId} no existe en el sistema");
-
-                // Crear registro de bitácora
-                var bitacora = new Bitacora(eventoId, username);
-
-                return _dal.RegistrarEvento(bitacora);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al registrar evento en bitácora: {ex.Message}");
-            }
+            return _eventosBLL.ObtenerTodos();
         }
 
-        public List<Bitacora> ObtenerTodos()
-        {
-            return _dal.ObtenerTodos();
-        }
-
-        public List<Bitacora> ObtenerPorUsername(string username)
+        public List<Evento> ObtenerPorUsername(string username)
         {
             if (string.IsNullOrEmpty(username))
-                throw new Exception("");
+                throw new Exception("El username es requerido");
 
-            return _dal.ObtenerPorUsername(username);
+            return _eventosBLL.ObtenerPorUsername(username);
         }
 
-        public List<Bitacora> ObtenerPorEvento(int eventoId)
+        public List<Evento> ObtenerPorTipoEvento(EventoTipoEnum tipoEvento)
         {
-            if (eventoId <= 0)
-                throw new Exception("El ID de evento debe ser válido");
-
-            return _dal.ObtenerPorEvento(eventoId);
+            return _eventosBLL.ObtenerPorTipoEvento(tipoEvento);
         }
 
-        public List<Bitacora> ObtenerPorFecha(DateTime fechaDesde, DateTime fechaHasta)
+        public List<Evento> ObtenerPorFecha(DateTime fechaDesde, DateTime fechaHasta)
         {
             if (fechaDesde > fechaHasta)
                 throw new Exception("La fecha desde no puede ser mayor a la fecha hasta");
 
-            return _dal.ObtenerPorFecha(fechaDesde, fechaHasta);
+            return _eventosBLL.ObtenerPorFecha(fechaDesde, fechaHasta);
         }
 
-        public List<Bitacora> ObtenerPorRangoFechas(DateTime? fechaDesde = null, DateTime? fechaHasta = null)
+        public List<Evento> ObtenerPorCriticidad(EventoCriticidadEnum criticidad)
+        {
+            return _eventosBLL.ObtenerPorCriticidad(criticidad);
+        }
+
+        public List<Evento> ObtenerPorRangoFechas(DateTime? fechaDesde = null, DateTime? fechaHasta = null)
         {
             DateTime desde = fechaDesde ?? DateTime.Today.AddDays(-30); // Por defecto últimos 30 días
             DateTime hasta = fechaHasta ?? DateTime.Now;
@@ -93,35 +64,45 @@ namespace BLL
             return ObtenerPorFecha(desde, hasta);
         }
 
-        // Método de conveniencia para registrar eventos comunes del sistema
+        // Métodos de conveniencia para registrar eventos comunes del sistema
         public void RegistrarLogin(string username)
         {
-            RegistrarEvento(EventoTipoEnum.Login, username);
+            _eventosBLL.RegistrarLogin(username);
         }
 
         public void RegistrarLogout(string username)
         {
-            RegistrarEvento(EventoTipoEnum.Logout, username);
+            _eventosBLL.RegistrarLogout(username);
         }
 
         public void RegistrarCreacionUsuario(string usernameAdmin)
         {
-            RegistrarEvento(EventoTipoEnum.CrearUsuario, usernameAdmin);
+            _eventosBLL.RegistrarCreacionUsuario(usernameAdmin);
+        }
+
+        public void RegistrarModificacionUsuario(string usernameAdmin)
+        {
+            _eventosBLL.RegistrarModificacionUsuario(usernameAdmin);
+        }
+
+        public void RegistrarEliminacionUsuario(string usernameAdmin)
+        {
+            _eventosBLL.RegistrarEliminacionUsuario(usernameAdmin);
         }
 
         public void RegistrarCambioPassword(string username)
         {
-            RegistrarEvento(EventoTipoEnum.CambiarPassword, username);
+            _eventosBLL.RegistrarCambioPassword(username);
         }
 
         public void RegistrarAccesoNoAutorizado(string username)
         {
-            RegistrarEvento(EventoTipoEnum.AccesoNoAutorizado, username);
+            _eventosBLL.RegistrarAccesoNoAutorizado(username);
         }
 
         public void RegistrarErrorSistema(string username)
         {
-            RegistrarEvento(EventoTipoEnum.ErrorSistema, username);
+            _eventosBLL.RegistrarErrorSistema(username);
         }
     }
 }

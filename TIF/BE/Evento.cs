@@ -1,27 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE
 {
     public class Evento
     {
         public int Id { get; set; }
+        public string UsuarioUsername { get; set; }
         public EventoTipoEnum Nombre { get; set; }
         public string Descripcion { get; set; }
         public EventoCriticidadEnum CriticidadId { get; set; }
+        public DateTime FechaHora { get; set; }
 
         public Evento()
         {
+            this.FechaHora = DateTime.Now;
         }
 
-        public Evento(EventoTipoEnum evento, string descripcion, EventoCriticidadEnum criticidadId)
+        public Evento(string usuarioUsername, EventoTipoEnum nombre, string descripcion, EventoCriticidadEnum criticidadId)
         {
-            Nombre = evento;
+            UsuarioUsername = usuarioUsername;
+            Nombre = nombre;
             Descripcion = descripcion;
             CriticidadId = criticidadId;
+            FechaHora = DateTime.Now;
+        }
+
+        public Evento(int id, string usuarioUsername, EventoTipoEnum nombre, string descripcion, EventoCriticidadEnum criticidadId, DateTime fechaHora)
+        {
+            Id = id;
+            UsuarioUsername = usuarioUsername;
+            Nombre = nombre;
+            Descripcion = descripcion;
+            CriticidadId = criticidadId;
+            FechaHora = fechaHora;
         }
     }
 
