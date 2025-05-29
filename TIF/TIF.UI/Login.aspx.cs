@@ -1,17 +1,22 @@
-﻿using System;
+﻿using BE;
+using BE.Permisos;
+using BE.Sesion;
+using BLL;
+using Microsoft.Ajax.Utilities;
+using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using BE;
-using BLL;
-using Services;
 
 namespace TIF.UI
 {
-    public partial class _Default : Page
+    public partial class Login : Page
     {
+        SesionBLL sesionbll = new SesionBLL();
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -19,41 +24,33 @@ namespace TIF.UI
 
         protected void ingresarButton_Click(object sender, EventArgs e)
         {
-            
             EncriptadorService encriptador = EncriptadorService.GetEncriptadorService();
+            //Encripta el usuario y la contraseña inresados en el formulario
             string username = encriptador.EncriptarAES(usuarioTextbox.Text.Trim());
             string password = encriptador.EncriptarMD5(passwordTextbox.Text.Trim());
-            UsuarioBLL usuarioBLL = new UsuarioBLL();
-
-            try {
-
-                Usuario usuario = usuarioBLL.obtenerUsuario(username);
-                if (usuario == null ) {
-                    throw new UsuarioInvalidoException();
-                }
-                if (usuario.Bloqueado) { 
-                    throw new UsuarioBloqueadoException();
-                }
-                if (!usuario.Password.Equals(password))
-                {
-                    usuarioBLL.loginInvalido(usuario);
-                    throw new UsuarioInvalidoException();
-                }
-                else { 
-                    usuarioBLL.loginValido(usuario);
-                }
-
-                Session["Usuario"] = usuario.Nombre;
-                Session["Apellido"] = usuario.Apellido;
-                Response.Redirect("Home.aspx");
-
-            }
-            catch (Exception ex)
+            
+            try
             {
-                Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
-                return;
-            }
+                var res = sesionbll.LogIn(username, password);
+                
+                Session["UsuarioNombre"] = SesionBE.ObtenerInstancia.Usuario.Nombre;
+                Session["UsuarioApellido"] = SesionBE.ObtenerInstancia.Usuario.Apellido;
+                Session["UsuarioCorreo"] = SesionBE.ObtenerInstancia.Usuario.Email;
+                Session["UsuarioRol"] = SesionBE.ObtenerInstancia.Usuario.ListaDePermisos[0].Nombre;
+                Session["UsuarioPermisos"] = SesionBE.ObtenerInstancia.Usuario.ListaDePermisos; // Guarda los permisos del usuario en la sesión
+                
+                string mensaje = $"Bienvenido {SesionBE.ObtenerInstancia.Usuario.Nombre} {SesionBE.ObtenerInstancia.Usuario.Apellido}\\nCorreo: {SesionBE.ObtenerInstancia.Usuario.Email}\\nRol: {SesionBE.ObtenerInstancia.Usuario.ListaDePermisos[0].Nombre}";
+                string script = $"alert('{mensaje}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "loginExitoso", script, true);
 
+                Response.Redirect("Home.aspx");
+            }
+            catch (LoginExcepcionBE error)
+            {
+                string mensaje = error.Message.Replace("'", "\\'"); // Escapa comillas simples
+                string script = "alert('Nombre de usuario y/o contraseña incorrecta.');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alertaLogin", script, true);
+            }
         }
 
         protected void newUser_Click(object sender, EventArgs e)

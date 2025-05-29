@@ -1,22 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="TIF.UI.WebForm1" %>
+﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="TIF.UI.Home" %>
 
-<!DOCTYPE html>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <main aria-labelledby="title">
+        <h2 id="title"><%:Title%>.</h2>
+        <h3>Proyecto de la materia Lenguajes deprogramación para la administración</h3>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <asp:Label ID="Label1" runat="server" Text="HOME"></asp:Label>
-        <div>
-        </div>
-    </form>
-</body>
-</html>
+        <address>
+            <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
+            <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+        </address>
+    </main>
+</asp:Content>
