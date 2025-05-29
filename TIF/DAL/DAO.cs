@@ -1,29 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
 
 namespace DAL
 {
-    internal class DAO
+    public partial class DAO
     {
 
-        SqlConnection mCon = new SqlConnection(ConfigurationManager.ConnectionStrings["StringConexion"].ConnectionString);
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////    ATRIBUTOS     ///////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        private static DAO singleton;
+        private SqlConnection miConnection;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////    CONSTRUCTOR     //////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static DAO GetDAO()
+        {
+            if (singleton == null)
+            {
+                singleton = new DAO();
+            }
+            return singleton;
+        }
+
+        private DAO()
+        {
+            string stringConexion = "Data Source=daw-db.cihg2e8ouwd8.us-east-1.rds.amazonaws.com;Initial Catalog=DAW_DB;User ID=admin;Password=663GsFAVvbT0h4dkUtK5";
+            this.miConnection = new SqlConnection(stringConexion);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////    METODOS DE BD     //////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Prueba la conexion y devuelve resultado acorde
+        private bool probarConexion()
+        {
+            try
+            {
+                this.miConnection.Open();
+                this.miConnection.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         public DataSet ExecuteDataSet(string pCommandText)
         {
             try
             {
-                SqlDataAdapter mDa = new SqlDataAdapter(pCommandText, mCon);
-                DataSet mDs = new DataSet();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(pCommandText, miConnection);
+                DataSet dataSet = new DataSet();
 
-                mDa.Fill(mDs);
+                dataAdapter.Fill(dataSet);
 
-                return mDs;
+                return dataSet;
             }
             catch (Exception ex)
             {
@@ -31,8 +75,8 @@ namespace DAL
             }
             finally
             {
-                if (mCon.State != ConnectionState.Closed)
-                    mCon.Close();
+                if (miConnection.State != ConnectionState.Closed)
+                    miConnection.Close();
             }
 
         }
@@ -41,9 +85,9 @@ namespace DAL
         {
             try
             {
-                SqlCommand mCom = new SqlCommand(pCommandText, mCon);
-                mCon.Open();
-                return mCom.ExecuteNonQuery();
+                SqlCommand command = new SqlCommand(pCommandText, miConnection);
+                miConnection.Open();
+                return command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -51,27 +95,8 @@ namespace DAL
             }
             finally
             {
-                if (mCon.State != ConnectionState.Closed)
-                    mCon.Close();
-            }
-        }
-
-        public int ObtenerUltimoId(string pTabla)
-        {
-            try
-            {
-                SqlCommand mCom = new SqlCommand("SELECT ISNULL(MAX(" + pTabla + "_Id),0) FROM " + pTabla, mCon);
-                mCon.Open();
-                return int.Parse(mCom.ExecuteScalar().ToString());
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-            finally
-            {
-                if (mCon.State != ConnectionState.Closed)
-                    mCon.Close();
+                if (miConnection.State != ConnectionState.Closed)
+                    miConnection.Close();
             }
         }
 
