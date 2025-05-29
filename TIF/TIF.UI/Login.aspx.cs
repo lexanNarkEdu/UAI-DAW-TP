@@ -55,6 +55,7 @@ namespace TIF.UI
                 }
 
                 Session["Usuario"] = usuario.Nombre;
+                Session["Username"] = usuario.Username;
                 Session["Apellido"] = usuario.Apellido;
                 Response.Redirect("Home.aspx", false);
             }
