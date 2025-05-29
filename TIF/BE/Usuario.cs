@@ -14,10 +14,10 @@ namespace BE
         public string Apellido { get; }
         public int Dni { get; }
         public string Email { get; }
-        public string Domicilio { get; }
+        public string Domicilio { get; }   
         public int FallosAutenticacionConsecutivos { get; set; }
-        public bool Bloqueado { get; set; }
-
+        public bool Bloqueado { get; set; } 
+        
 
         private List<Rol> Roles { get; }
 

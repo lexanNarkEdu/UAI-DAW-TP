@@ -10,8 +10,7 @@ namespace BLL
 {
     public class UsuarioBLL
     {
-        public Usuario obtenerUsuario(string username)
-        {
+        public Usuario obtenerUsuario(string username) {
             return UsuarioDAL.obtenerUsuario(username);
         }
 
@@ -22,14 +21,14 @@ namespace BLL
             {
                 usuario.Bloqueado = true;
             }
-
+            
             UsuarioDAL.loginInvalido(usuario);
         }
 
         public void loginValido(Usuario usuario)
         {
             usuario.FallosAutenticacionConsecutivos = 0;
-
+            
             UsuarioDAL.loginValido(usuario);
         }
 
