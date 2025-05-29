@@ -20,42 +20,76 @@ namespace TIF.UI
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Verificar que el usuario esté logueado
-            if (Session["Usuario"] == null)
-            {
-                Response.Redirect("Login.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
+            // Verificar autenticación
+            if (!AutorizacionHelper.VerificarAutenticacion(this))
                 return;
-            }
+
+            // Verificar autorización específica para bitácora
+            if (!AutorizacionHelper.VerificarAccesoBitacora(this))
+                return;
 
             if (!IsPostBack)
             {
+                // Mostrar información del usuario logueado para debugging
+                MostrarInformacionUsuario();
+
                 CargarFiltrosDesdeQueryString();
                 CargarDatos();
             }
         }
 
+        /// <summary>
+        /// Muestra información del usuario para debugging
+        /// </summary>
+        private void MostrarInformacionUsuario()
+        {
+            try
+            {
+                string username = AutorizacionHelper.ObtenerUsername(Session);
+                string nombreCompleto = AutorizacionHelper.ObtenerNombreCompleto(Session);
+
+                System.Diagnostics.Debug.WriteLine($"Usuario accediendo a bitácora: {nombreCompleto} ({username})");
+
+                // Verificar permisos específicos
+                bool tieneGestionarBitacora = AutorizacionHelper.TienePermiso(Session, AutorizacionHelper.GESTIONAR_BITACORA);
+                bool esAdministrador = AutorizacionHelper.TieneRol(Session, AutorizacionHelper.ROL_ADMINISTRADOR);
+
+                System.Diagnostics.Debug.WriteLine($"Permisos - GestionarBitacora: {tieneGestionarBitacora}, Administrador: {esAdministrador}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al mostrar información de usuario: {ex.Message}");
+            }
+        }
+
         private void CargarFiltrosDesdeQueryString()
         {
-            // Cargar valores de los filtros desde la QueryString
-            txtUsuario.Text = Request.QueryString["usuario"] ?? "";
-
-            string tipoEvento = Request.QueryString["tipo"] ?? "";
-            if (!string.IsNullOrEmpty(tipoEvento))
+            try
             {
-                ddlTipoEvento.SelectedValue = tipoEvento;
+                // Cargar valores de los filtros desde la QueryString
+                txtUsuario.Text = Request.QueryString["usuario"] ?? "";
+
+                string tipoEvento = Request.QueryString["tipo"] ?? "";
+                if (!string.IsNullOrEmpty(tipoEvento))
+                {
+                    ddlTipoEvento.SelectedValue = tipoEvento;
+                }
+
+                string fechaDesde = Request.QueryString["fechaDesde"] ?? "";
+                if (!string.IsNullOrEmpty(fechaDesde) && DateTime.TryParse(fechaDesde, out DateTime fDesde))
+                {
+                    txtFechaDesde.Text = fDesde.ToString("yyyy-MM-dd");
+                }
+
+                string fechaHasta = Request.QueryString["fechaHasta"] ?? "";
+                if (!string.IsNullOrEmpty(fechaHasta) && DateTime.TryParse(fechaHasta, out DateTime fHasta))
+                {
+                    txtFechaHasta.Text = fHasta.ToString("yyyy-MM-dd");
+                }
             }
-
-            string fechaDesde = Request.QueryString["fechaDesde"] ?? "";
-            if (!string.IsNullOrEmpty(fechaDesde) && DateTime.TryParse(fechaDesde, out DateTime fDesde))
+            catch (Exception ex)
             {
-                txtFechaDesde.Text = fDesde.ToString("yyyy-MM-dd");
-            }
-
-            string fechaHasta = Request.QueryString["fechaHasta"] ?? "";
-            if (!string.IsNullOrEmpty(fechaHasta) && DateTime.TryParse(fechaHasta, out DateTime fHasta))
-            {
-                txtFechaHasta.Text = fHasta.ToString("yyyy-MM-dd");
+                System.Diagnostics.Debug.WriteLine($"Error al cargar filtros desde QueryString: {ex.Message}");
             }
         }
 
@@ -76,6 +110,10 @@ namespace TIF.UI
                     lblResultados.Text = $"{eventos.Count} evento(s) encontrado(s)";
                     pnlResultados.Visible = true;
                     pnlSinResultados.Visible = false;
+
+                    // Log de acceso exitoso a bitácora
+                    string username = AutorizacionHelper.ObtenerUsername(Session);
+                    System.Diagnostics.Debug.WriteLine($"Usuario {username} consultó bitácora: {eventos.Count} eventos mostrados");
                 }
                 else
                 {
@@ -94,8 +132,23 @@ namespace TIF.UI
                 pnlResultados.Visible = false;
                 pnlSinResultados.Visible = true;
 
-                // Log del error para debugging
+                // Log del error
                 System.Diagnostics.Debug.WriteLine($"Error al cargar bitácora: {ex.Message}");
+
+                // Registrar el error en la bitácora si es posible
+                try
+                {
+                    string username = AutorizacionHelper.ObtenerUsername(Session);
+                    if (!string.IsNullOrEmpty(username))
+                    {
+                        _bitacoraBLL.RegistrarEvento(EventoTipoEnum.ErrorSistema, username,
+                            $"Error al consultar bitácora: {ex.Message}", EventoCriticidadEnum.Media);
+                    }
+                }
+                catch
+                {
+                    // Ignorar errores al registrar el error principal
+                }
             }
         }
 
@@ -163,50 +216,102 @@ namespace TIF.UI
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Construir URL con parámetros de filtro
-            string url = "Bitacora.aspx?";
-            List<string> parametros = new List<string>();
-
-            if (!string.IsNullOrEmpty(txtUsuario.Text.Trim()))
+            try
             {
-                parametros.Add($"usuario={HttpUtility.UrlEncode(txtUsuario.Text.Trim())}");
-            }
+                // Registrar consulta en bitácora
+                string username = AutorizacionHelper.ObtenerUsername(Session);
+                string filtros = ObtenerDescripcionFiltros();
 
-            if (!string.IsNullOrEmpty(ddlTipoEvento.SelectedValue))
-            {
-                parametros.Add($"tipo={HttpUtility.UrlEncode(ddlTipoEvento.SelectedValue)}");
-            }
+                _bitacoraBLL.RegistrarEvento(EventoTipoEnum.Login, username,
+                    $"Consulta bitácora con filtros: {filtros}", EventoCriticidadEnum.Baja);
 
-            if (!string.IsNullOrEmpty(txtFechaDesde.Text))
-            {
-                parametros.Add($"fechaDesde={HttpUtility.UrlEncode(txtFechaDesde.Text)}");
-            }
+                // Construir URL con parámetros de filtro
+                string url = "Bitacora.aspx?";
+                List<string> parametros = new List<string>();
 
-            if (!string.IsNullOrEmpty(txtFechaHasta.Text))
-            {
-                parametros.Add($"fechaHasta={HttpUtility.UrlEncode(txtFechaHasta.Text)}");
-            }
+                if (!string.IsNullOrEmpty(txtUsuario.Text.Trim()))
+                {
+                    parametros.Add($"usuario={HttpUtility.UrlEncode(txtUsuario.Text.Trim())}");
+                }
 
-            if (parametros.Count > 0)
-            {
-                url += string.Join("&", parametros);
-            }
-            else
-            {
-                url = "Bitacora.aspx"; // Sin parámetros
-            }
+                if (!string.IsNullOrEmpty(ddlTipoEvento.SelectedValue))
+                {
+                    parametros.Add($"tipo={HttpUtility.UrlEncode(ddlTipoEvento.SelectedValue)}");
+                }
 
-            Response.Redirect(url, false);
-            Context.ApplicationInstance.CompleteRequest();
+                if (!string.IsNullOrEmpty(txtFechaDesde.Text))
+                {
+                    parametros.Add($"fechaDesde={HttpUtility.UrlEncode(txtFechaDesde.Text)}");
+                }
+
+                if (!string.IsNullOrEmpty(txtFechaHasta.Text))
+                {
+                    parametros.Add($"fechaHasta={HttpUtility.UrlEncode(txtFechaHasta.Text)}");
+                }
+
+                if (parametros.Count > 0)
+                {
+                    url += string.Join("&", parametros);
+                }
+                else
+                {
+                    url = "Bitacora.aspx"; // Sin parámetros
+                }
+
+                Response.Redirect(url, false);
+                Context.ApplicationInstance.CompleteRequest();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al buscar en bitácora: {ex.Message}");
+                // Mostrar mensaje de error
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorBusqueda",
+                    "alert('Error al realizar la búsqueda. Inténtelo nuevamente.');", true);
+            }
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Bitacora.aspx", false);
-            Context.ApplicationInstance.CompleteRequest();
+            try
+            {
+                // Registrar limpieza de filtros
+                string username = AutorizacionHelper.ObtenerUsername(Session);
+                _bitacoraBLL.RegistrarEvento(EventoTipoEnum.Login, username,
+                    "Limpieza de filtros de bitácora", EventoCriticidadEnum.Baja);
+
+                Response.Redirect("Bitacora.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al limpiar filtros: {ex.Message}");
+            }
         }
 
-        // Métodos auxiliares para el GridView
+        /// <summary>
+        /// Obtiene una descripción de los filtros aplicados
+        /// </summary>
+        /// <returns>Descripción de filtros</returns>
+        private string ObtenerDescripcionFiltros()
+        {
+            var filtros = new List<string>();
+
+            if (!string.IsNullOrEmpty(txtUsuario.Text.Trim()))
+                filtros.Add($"Usuario: {txtUsuario.Text.Trim()}");
+
+            if (!string.IsNullOrEmpty(ddlTipoEvento.SelectedValue))
+                filtros.Add($"Tipo: {ddlTipoEvento.SelectedValue}");
+
+            if (!string.IsNullOrEmpty(txtFechaDesde.Text))
+                filtros.Add($"Desde: {txtFechaDesde.Text}");
+
+            if (!string.IsNullOrEmpty(txtFechaHasta.Text))
+                filtros.Add($"Hasta: {txtFechaHasta.Text}");
+
+            return filtros.Count > 0 ? string.Join(", ", filtros) : "Sin filtros";
+        }
+
+        // Métodos auxiliares para el GridView (sin cambios)
         protected string GetTipoEventoTexto(string tipoEvento)
         {
             switch (tipoEvento)
