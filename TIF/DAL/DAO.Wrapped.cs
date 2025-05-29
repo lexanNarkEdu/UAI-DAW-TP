@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
+using System.Configuration;
 
 namespace DAL
 {
@@ -76,6 +77,29 @@ namespace DAL
             }
         }
 
+        private int _WriteInternal(
+            string spNameOrText, List<SqlParameter> sqlParameters = null, CommandType commandType = CommandType.StoredProcedure, bool throwException = false)
+        {
+            var command = commandType == CommandType.StoredProcedure
+                ? CreateCommandForSp(spNameOrText, sqlParameters)
+                : CreateCommandForPlainText(spNameOrText, sqlParameters);
+
+            int result;
+            try
+            {
+                result = command.ExecuteNonQuery();
+            }
+            catch (System.Exception ex)
+            {
+                result = -1;
+
+                if (throwException)
+                    throw ex;
+            }
+
+            return result;
+        }
+
         public int Write(
             string spNameOrText,
             List<SqlParameter> sqlParameters = null,
@@ -90,7 +114,7 @@ namespace DAL
 
             try
             {
-                result = Write(spNameOrText, sqlParameters, commandType, throwException: throwException);
+                result = _WriteInternal(spNameOrText, sqlParameters, commandType, throwException: throwException);
             }
             finally
             {
