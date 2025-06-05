@@ -81,5 +81,18 @@ namespace DAL
 
         }
 
+        public void backup(string dbName, string backupPath)
+        {
+            string backupCommand = $@"
+                exec msdb.dbo.rds_backup_database 
+                    @source_db_name = '{dbName}',
+                    @s3_arn_to_backup_to = 'arn:aws:s3:::dawbackup/{backupPath}',
+                    @type = 'FULL';";
+            using (SqlCommand cmd = new SqlCommand(backupCommand, miConnection))
+            {
+                miConnection.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
