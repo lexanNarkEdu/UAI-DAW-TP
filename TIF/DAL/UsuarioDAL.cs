@@ -10,8 +10,6 @@ namespace DAL
 {
     public class UsuarioDAL
     {
-
-
         public static Usuario obtenerUsuario(string username)
         {
             string commandText = "" +
@@ -41,6 +39,40 @@ namespace DAL
                 return null;
             }
 
+        }
+
+        public static bool GuardarUsuario(Usuario usuario)
+        {
+            string commandText = "" +
+            "INSERT INTO Usuario (" +
+                "usuario_username, " +
+                "usuario_password, " +
+                "usuario_nombre, " +
+                "usuario_apellido, " +
+                "usuario_dni, " +
+                "usuario_email, " +
+                "usuario_domicilio, " +
+                "usuario_fallos_autenticacion_consecutivos, " +
+                "usuario_bloqueado, " +
+                "usuario_fecha_creacion, " +
+                "usuario_verificador_horizontal" +
+            ") " +
+            "VALUES ('" + 
+                usuario.Username + "', '" + 
+                usuario.Password + "', '" + 
+                usuario.Nombre + "', '" + 
+                usuario.Apellido + "', " +
+                usuario.Dni + ", '" + 
+                usuario.Email + "', '" + 
+                usuario.Domicilio + "', " + 
+                usuario.FallosAutenticacionConsecutivos + ", '" + 
+                usuario.Bloqueado.ToString() + "', " +
+                "GETDATE(), " +
+                5 +
+            ")";
+
+            DAO miDAO = DAO.GetDAO();
+            return miDAO.ExecuteNonQuery(commandText) > 0;
         }
 
         public static void loginInvalido(Usuario usuario)
