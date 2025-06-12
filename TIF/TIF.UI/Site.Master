@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - TIF</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -58,12 +58,45 @@
                 </div>
             </div>
         </nav>
+        <!-- Navbar condicional - solo si hay sesión activa -->
+        <asp:Panel ID="NavbarPanel" runat="server">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" runat="server" href="~/Home">TIF</a>
+                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Home">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Acerca de</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contacto</a></li>
+                            <li class="nav-item"><a class="nav-link" runat="server" href="~/Bitacora">Bitácora</a></li>
+                        </ul>
+                        <ul class="navbar-nav" style="display: flex; align-items: center;">
+                            <li class="nav-item">
+                                <span class="navbar-text text-light me-3">
+                                    Bienvenido, <asp:Literal ID="UsuarioLogueado" runat="server"></asp:Literal>
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton ID="LogoutButton" runat="server" CssClass="nav-link" OnClick="LogoutButton_Click">
+                                    <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </asp:Panel>
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - TIF - Tienda de Insumos Informaticos</p>
             </footer>
         </div>
     </form>

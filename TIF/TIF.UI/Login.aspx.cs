@@ -44,12 +44,14 @@ namespace TIF.UI
                 ClientScript.RegisterStartupScript(this.GetType(), "loginExitoso", script, true);
 
                 Response.Redirect("Home.aspx");
+
+
             }
-            catch (LoginExcepcionBE error)
-            {
                 string mensaje = error.Message.Replace("'", "\\'"); // Escapa comillas simples
                 string script = "alert('Nombre de usuario y/o contraseña incorrecta.');";
                 ClientScript.RegisterStartupScript(this.GetType(), "alertaLogin", script, true);
+                return;
+                return;
             }
         }
 
