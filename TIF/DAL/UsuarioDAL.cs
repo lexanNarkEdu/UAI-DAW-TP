@@ -50,7 +50,7 @@ namespace DAL
             "SET usuario_fallos_autenticacion_consecutivos = usuario_fallos_autenticacion_consecutivos + 1, " +
                 "usuario_bloqueado = '" + usuario.Bloqueado.ToString() + "' " +
             "WHERE usuario_username = '" + usuario.Username + "'";
-            
+
             DAO miDAO = DAO.GetDAO();
             miDAO.ExecuteNonQuery(commandText);
         }
@@ -70,11 +70,11 @@ namespace DAL
         {
             string usuario_username = pDataRow["usuario_username"].ToString();
             string usuario_nombre = pDataRow["usuario_nombre"].ToString();
-            string usuario_apellido = pDataRow["usuario_apellido"].ToString();  
-            int usuario_dni = int.Parse(pDataRow["usuario_dni"].ToString());    
+            string usuario_apellido = pDataRow["usuario_apellido"].ToString();
+            int usuario_dni = int.Parse(pDataRow["usuario_dni"].ToString());
             string usuario_email = pDataRow["usuario_email"].ToString();
             int usuario_fallos_autenticacion_consecutivos = int.Parse(pDataRow["usuario_fallos_autenticacion_consecutivos"].ToString());
-            bool usuario_bloqueado = bool.Parse(pDataRow["usuario_bloqueado"].ToString()); 
+            bool usuario_bloqueado = bool.Parse(pDataRow["usuario_bloqueado"].ToString());
             string usuario_domicilio = pDataRow["usuario_domicilio"].ToString();
             string usuario_password = pDataRow["usuario_password"].ToString();
 

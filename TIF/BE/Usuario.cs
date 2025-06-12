@@ -22,7 +22,8 @@ namespace BE
         private List<Rol> Roles { get; }
 
 
-        public Usuario(string username) {
+        public Usuario(string username)
+        {
             this.Username = username;
             this.Roles = new List<Rol>();
         }
