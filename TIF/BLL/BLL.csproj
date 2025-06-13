@@ -44,7 +44,9 @@
     <Compile Include="BitacoraBLL.cs" />
     <Compile Include="EventoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RolBLL.cs" />
+    <Compile Include="Permisos\PermisoBLL.cs" />
+    <Compile Include="RoLBLL.cs" />
+    <Compile Include="Sesion\SesionBLL.cs" />
     <Compile Include="UsuarioBLL.cs" />
   </ItemGroup>
   <ItemGroup>

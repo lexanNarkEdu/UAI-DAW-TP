@@ -8,7 +8,7 @@ namespace TIF.UI
         protected void Page_Load(object sender, EventArgs e)
         {
             // Verificar que el usuario esté logueado
-            if (Session["Usuario"] == null)
+            if (Session["Username"] == null)
             {
                 Response.Redirect("Login.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
@@ -26,8 +26,8 @@ namespace TIF.UI
             try
             {
                 // Obtener datos de la sesión
-                string nombre = Session["Usuario"]?.ToString() ?? "";
-                string apellido = Session["Apellido"]?.ToString() ?? "";
+                string nombre = Session["UsuarioNombre"]?.ToString() ?? "";
+                string apellido = Session["UsuarioApellido"]?.ToString() ?? "";
 
                 // Mostrar nombre completo del usuario
                 string nombreCompleto = $"{nombre} {apellido}".Trim();

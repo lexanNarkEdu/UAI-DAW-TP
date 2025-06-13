@@ -47,8 +47,9 @@
     <Compile Include="DAO.cs" />
     <Compile Include="EventosDAL.cs" />
     <Compile Include="Mappers\EventoMapper.cs" />
+    <Compile Include="AccesoBDDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RolDAL.cs" />
+    <Compile Include="Permisos\PermisoDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
   </ItemGroup>
   <ItemGroup>
