@@ -14,11 +14,6 @@ namespace DAL
     {
         internal AccesoBDDAL acceso = new AccesoBDDAL();
 
-        public PermisoDAL()
-        {
-            acceso.AbrirConexion();
-        }
-
         public Array TraerTodosLosPermisos()
         {
             return Enum.GetValues(typeof(PermisoENUMBE));
@@ -37,13 +32,17 @@ namespace DAL
                 commandText = $"INSERT INTO Permiso VALUES ('{permiso.Nombre}', Accion"; ;
             }
 
+            acceso.AbrirConexion();
             int res = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
 
             return res;
         }
                 
         public void AltaRol(RolBE rol)
         {
+            acceso.AbrirConexion();
+
             List<SqlParameter> parametros = new List<SqlParameter>();
             SqlParameter p = acceso.CrearParametro("@id", rol.Id);
             parametros.Add(p);
@@ -63,11 +62,15 @@ namespace DAL
                 parametros2.Clear();
                 //INSERT INTO Permiso_Permiso VALUES (@permisopadre_id, @permisohijo_id) 
             }
+
+            acceso.CerrarConexion();
         }
         
         //Permiso = Acciones
         public IList<PermisoBE> TraerTodo(string rol)
         {
+            acceso.AbrirConexion();
+
             //var where = "IS NULL";
             var where = "NULL";
             if (!string.IsNullOrEmpty(rol))
@@ -136,20 +139,25 @@ namespace DAL
                     padre.AgregarHijo(permisoaux);
                 }
             }
+
+            acceso.CerrarConexion();
             return listadepermisos;
         }
                         
         //Accion = Patente
         public IList<AccionBE> TraerTodasLasAcciones()
         {
+            acceso.AbrirConexion();
             IList<AccionBE> listadeacciones = new List<AccionBE>();
             DataTable tabla = acceso.Leer("ACCION_LISTAR", null);
+            acceso.CerrarConexion();
+
             /*
-            SELECT * FROM Permiso WHERE permiso_tipo IS NOT NULL
-            Me traigo los que no son NULL porque en la base los registros que en el campo permiso tengan el valor de NULL van a ser roles
-            1	IgresarAVentas  Accion  --> Es una accion/patente
-            2	VerVenta        Accion  --> Es una accion/patente
-            3   Administrador   NULL    --> Es un rol/familia
+                SELECT * FROM Permiso WHERE permiso_tipo IS NOT NULL
+                Me traigo los que no son NULL porque en la base los registros que en el campo permiso tengan el valor de NULL van a ser roles
+                1	IgresarAVentas  Accion  --> Es una accion/patente
+                2	VerVenta        Accion  --> Es una accion/patente
+                3   Administrador   NULL    --> Es un rol/familia
             */
 
             foreach (DataRow dr in tabla.Rows)
@@ -165,6 +173,7 @@ namespace DAL
 
                 listadeacciones.Add(accionaux);
             }
+
             return listadeacciones;
         }
 
@@ -172,10 +181,12 @@ namespace DAL
         //Rol = Familia
         public IList<RolBE> TraerTodosLosRoles()
         {
+            acceso.AbrirConexion();
             IList<RolBE> listaderoles = new List<RolBE>();
             DataTable tabla = acceso.Leer("ROL_LISTAR", null);
-            //SELECT * FROM Permiso WHERE permiso_tipo IS NULL
+            acceso.CerrarConexion();
 
+            //SELECT * FROM Permiso WHERE permiso_tipo IS NULL
             foreach (DataRow dr in tabla.Rows)
             {
                 var id = int.Parse(dr["id"].ToString());
@@ -217,9 +228,12 @@ namespace DAL
       
         public void LlenarUsuarioPermisos(UsuarioBE usuario)
         {
+
             string commandText = $"SELECT P.* FROM Usuario_Permiso UP INNER JOIN Permiso P ON UP.permiso_id = P.permiso_id WHERE usuario_username = '{usuario.Username}'";
 
+            acceso.AbrirConexion();
             DataTable tabla = acceso.Leer(commandText, null, false);
+            acceso.CerrarConexion();
 
             if (tabla.Rows.Count != 0)
             {
@@ -274,7 +288,9 @@ namespace DAL
         public void LlenarRolPermisos(RolBE rol)
         {
             rol.VaciarHijos();
-            foreach (var item in TraerTodo(rol.Id.ToString()))
+            IList<PermisoBE> permisos = TraerTodo(rol.Id.ToString());
+
+            foreach (var item in permisos)
             {
                 rol.AgregarHijo(item);
             }

@@ -12,7 +12,7 @@ namespace TIF.UI
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UsuarioPermisos"] == null)
+            if (Session["Username"] == null && Session["UsuarioPermisos"] == null)
             {
                 Response.Redirect("~/Login.aspx");
             }

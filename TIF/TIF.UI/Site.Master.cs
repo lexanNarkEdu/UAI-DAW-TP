@@ -1,30 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.UI;
+using BE.Permisos;
 using BLL;
+using TIF.UI.Helpers;
 
 namespace TIF.UI
 {
     public partial class SiteMaster : MasterPage
     {
         private readonly BitacoraBLL _bitacoraBLL;
+        private readonly RoLBLL _roLBLL;
 
         public SiteMaster()
         {
             _bitacoraBLL = new BitacoraBLL();
+            _roLBLL = new RoLBLL();
         }
 
         protected void Page_Load(object sender, EventArgs e)
         {
             // Controlar visibilidad del navbar basado en la sesión
-            bool usuarioLogueado = Session["Usuario"] != null;
+            bool usuarioLogueado = Session["Username"] != null;
             NavbarPanel.Visible = usuarioLogueado;
 
             // Si hay usuario logueado, mostrar su nombre en el navbar
             if (usuarioLogueado)
             {
-                string nombre = Session["Usuario"].ToString();
-                string apellido = Session["Apellido"]?.ToString() ?? "";
+                string nombre = Session["UsuarioNombre"].ToString();
+                string apellido = Session["UsuarioApellido"]?.ToString() ?? "";
                 UsuarioLogueado.Text = $"{nombre} {apellido}".Trim();
+
+                var permisos = Session["UsuarioPermisos"] as List<PermisoBE>;
+                liBitacora.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aBitacora.HRef));
+                liABMUsuarios.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMUsuarios.HRef));
+                liProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aProductos.HRef));
             }
         }
 

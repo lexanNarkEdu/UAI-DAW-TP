@@ -13,18 +13,15 @@ namespace DAL
     {
         internal AccesoBDDAL acceso = new AccesoBDDAL();
 
-        public UsuarioDAL()
-        {
-            acceso.AbrirConexion();
-        }
-
         public List<UsuarioBE> buscar(UsuarioBE entidad)
         {
             List<UsuarioBE> usuarios = new List<UsuarioBE>();
 
+            acceso.AbrirConexion();
             string commandText = $"SELECT * FROM Usuario WHERE usuario_username = '{entidad.Username}' AND usuario_password = '{entidad.Password}'";
-
             DataTable tabla = acceso.Leer(commandText, null, false);
+            acceso.CerrarConexion();
+
             foreach (DataRow dr in tabla.Rows)
             {
                 usuarios.Add(ValorizarEntidad(dr));
@@ -50,7 +47,10 @@ namespace DAL
 
             List<UsuarioBE> usuarios = new List<UsuarioBE>();
 
+            acceso.AbrirConexion();
             DataTable tabla = acceso.Leer(commandText, null, false);
+            acceso.CerrarConexion();
+
             foreach (DataRow dr in tabla.Rows)
             {
                 usuarios.Add(ValorizarEntidad(dr));
@@ -66,7 +66,9 @@ namespace DAL
                 "usuario_bloqueado = '" + usuario.Bloqueado.ToString() + "' " +
             "WHERE usuario_username = '" + usuario.Username + "'";
 
-            int res = acceso.Escribir(commandText, null, false);
+            acceso.AbrirConexion();
+            acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
         }
 
         public void loginValido(UsuarioBE usuario)
@@ -75,8 +77,10 @@ namespace DAL
             "UPDATE Usuario " +
             "SET usuario_fallos_autenticacion_consecutivos = 0 " +
             "WHERE usuario_username = '" + usuario.Username + "'";
-            
-            int res = acceso.Escribir(commandText, null, false);
+
+            acceso.AbrirConexion();
+            acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
         }
 
         internal UsuarioBE ValorizarEntidad(DataRow pDataRow)

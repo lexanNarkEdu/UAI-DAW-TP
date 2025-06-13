@@ -1,8 +1,12 @@
-﻿using BLL;
+﻿using BE.Permisos;
+using BLL;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
+using TIF.UI.Helpers;
 
 namespace TIF.UI
 {
@@ -13,6 +17,46 @@ namespace TIF.UI
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        protected void Application_PreRequestHandlerExecute(object sender, EventArgs e)
+        {
+            // Excluir páginas que no requieren validación
+            string[] paginasExcluidas = { "/Login", "/SinPermisos", "/Error" };
+            if (paginasExcluidas.Any(p => Request.Path.EndsWith(p)))
+                return;
+
+            if (Request.Path.EndsWith("/"))
+            {
+                Response.Redirect("~/Home.aspx");
+                return;
+            }
+
+            // Verificar si usuario está autenticado
+            if (Session["Username"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
+
+            // Obtener lista de permisos del usuario desde Session
+            var permisosUsuario = Session["UsuarioPermisos"] as List<PermisoBE>;
+            if (permisosUsuario == null)
+            {
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
+
+            //No tiene permisos, entiendo
+            if (Request.Path.EndsWith("/Home") || Request.Path.EndsWith("/Contact") || Request.Path.EndsWith("/About"))
+                return;
+
+            var autorizado = new RoLBLL().EstaPermisoEnRol(permisosUsuario, PermisoToRouteHelper.ToPermiso(Request.Path));
+
+            if (!autorizado)
+            {
+                Response.Redirect("~/SinPermisos.aspx");
+            }
         }
     }
 }
