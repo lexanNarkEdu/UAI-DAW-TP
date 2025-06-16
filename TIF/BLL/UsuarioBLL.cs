@@ -10,34 +10,28 @@ namespace BLL
 {
     public class UsuarioBLL
     {
-        public Usuario obtenerUsuario(string username) {
-            return UsuarioDAL.obtenerUsuario(username);
+        UsuarioDAL usuariodal = new UsuarioDAL();
+
+        public UsuarioBE obtenerUsuario(string username) {
+            return usuariodal.obtenerUsuarioConUsername(username);
         }
 
-        public static bool GuardarUsuario(Usuario usuario)
-        {
-            return UsuarioDAL.GuardarUsuario(usuario);
-        }
-
-        public void loginInvalido(Usuario usuario)
+        public void loginInvalido(UsuarioBE usuario)
         {
             usuario.FallosAutenticacionConsecutivos++;
             if (usuario.FallosAutenticacionConsecutivos >= 3)
             {
                 usuario.Bloqueado = true;
             }
-            
-            UsuarioDAL.loginInvalido(usuario);
+
+            usuariodal.loginInvalido(usuario);
         }
 
-        public void loginValido(Usuario usuario)
+        public void loginValido(UsuarioBE usuario)
         {
             usuario.FallosAutenticacionConsecutivos = 0;
-            
-            UsuarioDAL.loginValido(usuario);
+
+            usuariodal.loginValido(usuario);
         }
-
-
     }
-
 }

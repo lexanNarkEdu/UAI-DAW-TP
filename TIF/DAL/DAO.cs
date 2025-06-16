@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class DAO
+    public partial class DAO
     {
 
         /////////////////////////////////////////////////////////////////////////////////////////////

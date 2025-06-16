@@ -41,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Rol.cs" />
-    <Compile Include="Usuario.cs" />
+    <Compile Include="Evento.cs" />
+    <Compile Include="EventoTipoEnum.cs" />
+    <Compile Include="Permisos\AccionBE.cs" />
+    <Compile Include="Permisos\PermisoBE.cs" />
+    <Compile Include="Permisos\PermisoENUMBE.cs" />
+    <Compile Include="Permisos\RolBE.cs" />
+    <Compile Include="Sesion\LoginExcepcionBE.cs" />
+    <Compile Include="Sesion\LoginResultadoENUMBE.cs" />
+    <Compile Include="Sesion\SesionBE.cs" />
+    <Compile Include="UsuarioBE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

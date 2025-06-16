@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitacoraBLL.cs" />
+    <Compile Include="EventoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RolBLL.cs" />
+    <Compile Include="Permisos\PermisoBLL.cs" />
+    <Compile Include="RoLBLL.cs" />
+    <Compile Include="Sesion\SesionBLL.cs" />
     <Compile Include="UsuarioBLL.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +55,7 @@
       <Name>BE</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{e5deb323-3160-4b90-afbb-0e896cdebd91}</Project>
+      <Project>{E5DEB323-3160-4B90-AFBB-0E896CDEBD91}</Project>
       <Name>DAL</Name>
     </ProjectReference>
   </ItemGroup>
