@@ -45,8 +45,8 @@ namespace TIF.UI
             string email = txtEmail.Text.Trim();
             string domicilio = txtDomicilio.Text.Trim();
 
-            bool exito = UsuarioBLL.GuardarUsuario(
-                new Usuario(username, password, nombre, apellido, dni, email, domicilio, 0, false)
+            bool exito = usuarioBLL.GuardarUsuario(
+                new UsuarioBE(username, password, nombre, apellido, dni, email, domicilio, 0, false)
             );
             
             if (exito)
