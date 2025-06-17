@@ -23,7 +23,7 @@ namespace TIF.UI
             
             RoLBLL roLBLL = new RoLBLL();
             bool permisoABM = roLBLL.EstaPermisoEnRol(Session["UsuarioPermisos"] as List<PermisoBE>, PermisoToRouteHelper.ToPermiso("~/ABMUsuarios"));
-            dropDownRol.Visible = permisoABM;
+            divRol.Visible = permisoABM;
 
             if (permisoABM) {
                 PermisoBLL permisoBLL = new PermisoBLL();
@@ -68,7 +68,6 @@ namespace TIF.UI
             int dni = int.Parse(txtDni.Text.Trim());
             string email = txtEmail.Text.Trim();
             string domicilio = txtDomicilio.Text.Trim();
-            ListItem a = dropDownRol.SelectedItem;
             string rol = dropDownRol.Visible ? dropDownRol.SelectedItem.Value : "7";
 
             bool exito = usuarioBLL.GuardarUsuario(
@@ -77,9 +76,19 @@ namespace TIF.UI
             );
             
             if (exito)
-            {  
+            {
                 Session["ExitoRegistro"] = "Usuario registrado exitosamente.";
-                Response.Redirect("Login.aspx");
+                // Verificar si usuario está autenticado
+                if (Session["Username"] == null)
+                {
+                    Response.Redirect("~/Login.aspx");
+                    return;
+                }
+                else
+                {
+                    Response.Redirect("~/Home.aspx");
+                    return;
+                }
             }
             else
             {

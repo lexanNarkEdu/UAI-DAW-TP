@@ -130,7 +130,7 @@
                     ErrorMessage="El nombre de usuario es obligatorio." CssClass="validation-message" Display="Dynamic"></asp:RequiredFieldValidator>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ID="divRol" runat="server">
                 <label for="txtRol">Rol:</label>
                 <asp:DropDownList ID="dropDownRol" runat="server" CssClass="form-control" placeholder="Seleccione un rol para el usuario">
                 </asp:DropDownList>

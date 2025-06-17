@@ -19,6 +19,11 @@ namespace TIF.UI
             {
                 CargarDatosUsuario();
             }
+
+            if (Session["ExitoRegistro"] != null)
+            {
+                Response.Write("<script>alert('" + Session["ExitoRegistro"].ToString() + "');</script>");
+            }
         }
 
         private void CargarDatosUsuario()
