@@ -32,6 +32,14 @@ namespace TIF.UI
                 return;
             }
 
+            //Revisar si hay sesion disponible
+            //HttpContext context = HttpContext.Current;
+            //if (context == null || context.Session == null)
+            //{
+            //    Response.Redirect("~/Login.aspx");
+            //    return;
+            //}
+
             // Verificar si usuario está autenticado
             if (Session["Username"] == null)
             {

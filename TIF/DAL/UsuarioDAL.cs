@@ -51,11 +51,14 @@ namespace DAL
             DataTable tabla = acceso.Leer(commandText, null, false);
             acceso.CerrarConexion();
 
-            foreach (DataRow dr in tabla.Rows)
+            if (tabla.Rows.Count > 0)
             {
-                usuarios.Add(ValorizarEntidad(dr));
+                return ValorizarEntidad(tabla.Rows[0]);
             }
-            return usuarios[0];
+            else
+            {
+                return null;
+            }
         }
 
         public void loginInvalido(UsuarioBE usuario)
