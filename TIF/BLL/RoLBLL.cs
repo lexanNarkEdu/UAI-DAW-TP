@@ -30,6 +30,11 @@ namespace BLL
         {
             bool existe = false;
 
+            if (listadoDePermisos == null || listadoDePermisos.Count == 0)
+            {
+                return existe; // No hay permisos para verificar
+            }
+
             foreach (var item in listadoDePermisos)
             {
                 if (item.PermisoTipoEnum.Equals(permisotipoenum))

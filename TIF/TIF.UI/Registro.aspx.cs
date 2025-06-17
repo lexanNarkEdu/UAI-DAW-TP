@@ -1,4 +1,8 @@
-﻿using BLL;
+﻿using BE;
+using BE.Permisos;
+using BLL;
+using BLL;
+using Services;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -6,9 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using BE;
-using BLL;
-using Services;
+using TIF.UI.Helpers;
 
 namespace TIF.UI
 {
@@ -17,11 +19,33 @@ namespace TIF.UI
         protected void Page_Load(object sender, EventArgs e)
         {
             rvDni.MinimumValue = "00000001";
-            rvDni.MaximumValue = "99999999";    
+            rvDni.MaximumValue = "99999999";
+            
+            RoLBLL roLBLL = new RoLBLL();
+            bool permisoABM = roLBLL.EstaPermisoEnRol(Session["UsuarioPermisos"] as List<PermisoBE>, PermisoToRouteHelper.ToPermiso("~/ABMUsuarios"));
+            dropDownRol.Visible = permisoABM;
+
+            if (permisoABM) {
+                PermisoBLL permisoBLL = new PermisoBLL();
+                foreach (var permiso in permisoBLL.BuscarTodosLosRoles())
+                {
+                    dropDownRol.Items.Add(new ListItem(permiso.Nombre, permiso.Id.ToString()));
+                }
+            }
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
+            ValidatorCollection validators =  Page.Validators;
+            foreach (BaseValidator validator in validators)
+            {
+                if (!validator.IsValid)
+                {
+                    Response.Write("<script>alert('Por favor, corregí los errores en el formulario.');</script>");
+                    return;
+                }
+            }
+
             EncriptadorService encriptador = EncriptadorService.GetEncriptadorService();
             string username = encriptador.EncriptarAES(txtNombreUsuario.Text.Trim());
             UsuarioBLL usuarioBLL = new UsuarioBLL();
@@ -44,13 +68,16 @@ namespace TIF.UI
             int dni = int.Parse(txtDni.Text.Trim());
             string email = txtEmail.Text.Trim();
             string domicilio = txtDomicilio.Text.Trim();
+            ListItem a = dropDownRol.SelectedItem;
+            string rol = dropDownRol.Visible ? dropDownRol.SelectedItem.Value : "7";
 
             bool exito = usuarioBLL.GuardarUsuario(
-                new UsuarioBE(username, password, nombre, apellido, dni, email, domicilio, 0, false)
+                new UsuarioBE(username, password, nombre, apellido, dni, email, domicilio, 0, false),
+                rol
             );
             
             if (exito)
-            {
+            {  
                 Session["ExitoRegistro"] = "Usuario registrado exitosamente.";
                 Response.Redirect("Login.aspx");
             }

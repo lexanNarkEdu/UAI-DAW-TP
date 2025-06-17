@@ -58,7 +58,7 @@ namespace DAL
             }
         }
 
-        public bool GuardarUsuario(UsuarioBE usuario)
+        public bool GuardarUsuario(UsuarioBE usuario, string rol)
         {
             string commandText = "" +
             "INSERT INTO Usuario (" +
@@ -91,7 +91,27 @@ namespace DAL
             acceso.AbrirConexion();
             int r = acceso.Escribir(commandText, null, false);
             acceso.CerrarConexion();
-            return r<0;
+
+            if (r < 0)
+            {
+                return false;
+            }
+
+            commandText = "" +
+            "INSERT INTO Usuario_Permiso (" +
+                "usuario_username," +
+                "permiso_id" +
+            ") " +
+            "VALUES ('" +
+                usuario.Username + "', '" +
+                rol +
+            "')";
+
+            acceso.AbrirConexion();
+            r = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
+
+            return r>=0;
         }
 
         public void loginInvalido(UsuarioBE usuario)

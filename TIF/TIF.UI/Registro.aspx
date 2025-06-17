@@ -131,6 +131,13 @@
             </div>
 
             <div class="form-group">
+                <label for="txtRol">Rol:</label>
+                <asp:DropDownList ID="dropDownRol" runat="server" CssClass="form-control" placeholder="Seleccione un rol para el usuario">
+                </asp:DropDownList>
+                <br/>
+            </div>
+
+            <div class="form-group">
                 <label for="txtContrasena">Contraseña:</label>
                 <asp:TextBox ID="txtContrasena" runat="server" TextMode="Password" CssClass="form-control" placeholder="Ingrese su contraseña"></asp:TextBox>
                 <br/>
@@ -152,7 +159,7 @@
                     ControlToValidate="txtRepetirContrasena" ErrorMessage="Las contraseñas no coinciden." CssClass="validation-message" Display="Dynamic"></asp:CompareValidator>
             </div>
 
-            <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse" CssClass="btn-register" OnClick="btnRegistrar_Click" />
+            <asp:Button ID="btnRegistrar" runat="server" Text="Registrarse" CssClass="btn-register" OnClick="btnRegistrar_Click"/>
         </div>
     </form>
 </body>

@@ -16,9 +16,9 @@ namespace BLL
             return usuariodal.obtenerUsuarioConUsername(username);
         }
 
-        public bool GuardarUsuario(UsuarioBE usuario)
+        public bool GuardarUsuario(UsuarioBE usuario, string rol)
         {
-            return usuariodal.GuardarUsuario(usuario);
+            return usuariodal.GuardarUsuario(usuario, rol);
         }
 
 
