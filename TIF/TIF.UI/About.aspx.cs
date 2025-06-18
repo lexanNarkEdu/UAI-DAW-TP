@@ -9,9 +9,10 @@ namespace TIF.UI
 {
     public partial class About : Page
     {
+        public string NombreEmpresa { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            NombreEmpresa = "TecnoComponentes Globales";
         }
     }
 }
