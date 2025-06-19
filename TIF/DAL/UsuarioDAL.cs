@@ -112,6 +112,7 @@ namespace DAL
             acceso.CerrarConexion();
 
             return r>=0;
+
         }
 
         public void loginInvalido(UsuarioBE usuario)
