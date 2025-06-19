@@ -16,6 +16,12 @@ namespace BLL
             return usuariodal.obtenerUsuarioConUsername(username);
         }
 
+        public bool GuardarUsuario(UsuarioBE usuario, string rol)
+        {
+            return usuariodal.GuardarUsuario(usuario, rol);
+        }
+
+
         public void loginInvalido(UsuarioBE usuario)
         {
             usuario.FallosAutenticacionConsecutivos++;

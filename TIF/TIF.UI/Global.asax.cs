@@ -22,7 +22,7 @@ namespace TIF.UI
         protected void Application_PreRequestHandlerExecute(object sender, EventArgs e)
         {
             // Excluir páginas que no requieren validación
-            string[] paginasExcluidas = { "/Login", "/SinPermisos", "/Error" };
+            string[] paginasExcluidas = { "/Login", "/Registro", "/SinPermisos", "/Error" };
             if (paginasExcluidas.Any(p => Request.Path.EndsWith(p)))
                 return;
 
@@ -32,8 +32,15 @@ namespace TIF.UI
                 return;
             }
 
+            //Revisar si hay sesion disponible
+            HttpContext context = HttpContext.Current;
+            if (context == null || context.Session == null){
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
+
             // Verificar si usuario está autenticado
-            if (Session["Username"] == null)
+            if (Session["Username"] == null) 
             {
                 Response.Redirect("~/Login.aspx");
                 return;

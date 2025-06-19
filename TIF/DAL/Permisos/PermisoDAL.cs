@@ -183,13 +183,12 @@ namespace DAL
         {
             acceso.AbrirConexion();
             IList<RolBE> listaderoles = new List<RolBE>();
-            DataTable tabla = acceso.Leer("ROL_LISTAR", null);
+            DataTable tabla = acceso.Leer("SELECT * FROM Permiso WHERE permiso_tipo IS NULL", null, false);
             acceso.CerrarConexion();
 
-            //SELECT * FROM Permiso WHERE permiso_tipo IS NULL
             foreach (DataRow dr in tabla.Rows)
             {
-                var id = int.Parse(dr["id"].ToString());
+                var id = int.Parse(dr["permiso_id"].ToString());
                 var permiso_nombre = dr["permiso_nombre"].ToString();
 
                 RolBE rolaux = new RolBE();

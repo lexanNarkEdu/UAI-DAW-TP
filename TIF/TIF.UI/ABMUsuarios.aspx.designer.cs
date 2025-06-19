@@ -13,5 +13,23 @@ namespace TIF.UI
 
     public partial class ABMUsuarios
     {
+
+        /// <summary>
+        /// manageUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button manageUsers;
+
+        /// <summary>
+        /// addUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addUser;
     }
 }

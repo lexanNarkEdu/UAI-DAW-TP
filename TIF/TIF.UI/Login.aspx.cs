@@ -24,7 +24,9 @@ namespace TIF.UI
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["ExitoRegistro"] != null) {
+                Response.Write("<script>alert('"+ Session["ExitoRegistro"].ToString() + "');</script>");
+            }
         }
 
         protected void ingresarButton_Click(object sender, EventArgs e)
@@ -83,7 +85,7 @@ namespace TIF.UI
 
         protected void newUser_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("Registro.aspx");
         }
 
         protected void forgotPassword_Click(object sender, EventArgs e)

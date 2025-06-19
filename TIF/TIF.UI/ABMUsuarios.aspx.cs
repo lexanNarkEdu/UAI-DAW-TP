@@ -17,5 +17,15 @@ namespace TIF.UI
                 Response.Redirect("~/Login.aspx");
             }
         }
+
+        protected void manageUsers_Click(object sender, EventArgs e)
+        {
+            Response.Write("<script>alert('" + "No está implementado aún!!" + "');</script>");
+        }
+
+        protected void addUser_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Registro.aspx");
+        }
     }
 }

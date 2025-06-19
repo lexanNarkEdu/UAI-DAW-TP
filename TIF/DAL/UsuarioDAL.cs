@@ -45,20 +45,74 @@ namespace DAL
             "FROM Usuario " +
             "WHERE usuario_username = '" + username + "'";
 
-            List<UsuarioBE> usuarios = new List<UsuarioBE>();
-
             acceso.AbrirConexion();
             DataTable tabla = acceso.Leer(commandText, null, false);
             acceso.CerrarConexion();
 
-            if (tabla.Rows.Count > 0)
-            {
+            if (tabla.Rows.Count > 0) {
                 return ValorizarEntidad(tabla.Rows[0]);
             }
             else
             {
                 return null;
             }
+        }
+
+        public bool GuardarUsuario(UsuarioBE usuario, string rol)
+        {
+            string commandText = "" +
+            "INSERT INTO Usuario (" +
+                "usuario_username, " +
+                "usuario_password, " +
+                "usuario_nombre, " +
+                "usuario_apellido, " +
+                "usuario_dni, " +
+                "usuario_email, " +
+                "usuario_domicilio, " +
+                "usuario_fallos_autenticacion_consecutivos, " +
+                "usuario_bloqueado, " +
+                "usuario_fecha_creacion, " +
+                "usuario_verificador_horizontal" +
+            ") " +
+            "VALUES ('" +
+                usuario.Username + "', '" +
+                usuario.Password + "', '" +
+                usuario.Nombre + "', '" +
+                usuario.Apellido + "', " +
+                usuario.Dni + ", '" +
+                usuario.Email + "', '" +
+                usuario.Domicilio + "', " +
+                usuario.FallosAutenticacionConsecutivos + ", '" +
+                usuario.Bloqueado.ToString() + "', " +
+                "GETDATE(), " +
+                5 +
+            ")";
+
+            acceso.AbrirConexion();
+            int r = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
+
+            if (r < 0)
+            {
+                return false;
+            }
+
+            commandText = "" +
+            "INSERT INTO Usuario_Permiso (" +
+                "usuario_username," +
+                "permiso_id" +
+            ") " +
+            "VALUES ('" +
+                usuario.Username + "', '" +
+                rol +
+            "')";
+
+            acceso.AbrirConexion();
+            r = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
+
+            return r>=0;
+
         }
 
         public void loginInvalido(UsuarioBE usuario)
