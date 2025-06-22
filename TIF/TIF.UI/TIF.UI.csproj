@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -161,6 +162,26 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="SinPermisos.aspx" />
     <Content Include="Site.Master" />
+    <Content Include="tools\Roslyn-4.1.0\csc.exe" />
+    <Content Include="tools\Roslyn-4.1.0\csi.exe" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CodeAnalysis.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Buffers.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Collections.Immutable.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Memory.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Numerics.Vectors.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Reflection.Metadata.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Text.Encoding.CodePages.dll" />
+    <Content Include="tools\Roslyn-4.1.0\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="tools\Roslyn-4.1.0\vbc.exe" />
+    <Content Include="tools\Roslyn-4.1.0\VBCSCompiler.exe" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -290,6 +311,17 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <Content Include="tools\Roslyn-4.1.0\csc.exe.config" />
+    <Content Include="tools\Roslyn-4.1.0\csc.rsp" />
+    <Content Include="tools\Roslyn-4.1.0\csi.exe.config" />
+    <Content Include="tools\Roslyn-4.1.0\csi.rsp" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.CSharp.Core.targets" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.Managed.Core.CurrentVersions.targets" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.Managed.Core.targets" />
+    <Content Include="tools\Roslyn-4.1.0\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="tools\Roslyn-4.1.0\vbc.exe.config" />
+    <Content Include="tools\Roslyn-4.1.0\vbc.rsp" />
+    <Content Include="tools\Roslyn-4.1.0\VBCSCompiler.exe.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -342,6 +374,7 @@
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

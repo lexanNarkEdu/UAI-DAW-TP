@@ -10,7 +10,7 @@ namespace BE.Permisos
     {
         //Acá no van roles, van acciones
         SinPermisos,
-        ABMProducto,
+        ABMProductos,
         ABMUsuarios,
         GestionarBitacoraEventos,
         GestionarBitacoraCambios,
