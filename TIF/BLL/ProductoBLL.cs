@@ -71,7 +71,6 @@ namespace BLL
             if (string.IsNullOrWhiteSpace(producto.UsuarioCreacion))
                 throw new ArgumentException("Información de usuario es obligatoria.", nameof(producto.UsuarioCreacion));
 
-            // Aquí podrías calcular DVH, setear fechas, etc.
             _dal.Agregar(producto);
         }
 
