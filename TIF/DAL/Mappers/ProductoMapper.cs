@@ -26,7 +26,7 @@ namespace DAL.Mappers
                 Activo = Convert.ToBoolean(row["producto_activo"]),
                 FechaCreacion = Convert.ToDateTime(row["producto_fecha_creacion"]),
                 UsuarioCreacion = row["producto_usuario_creacion"].ToString(),
-                VerificadorHorizontal = row["producto_verificador_horizontal"].ToString()
+                //VerificadorHorizontal = row["producto_verificador_horizontal"].ToString()
             };
         }
     }

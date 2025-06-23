@@ -75,10 +75,10 @@ namespace TIF.UI
             }
             catch (Exception ex)
             {
-                if (!(ex is UsuarioInvalidoException) && !(ex is UsuarioBloqueadoException))
-                    _bitacoraBLL.RegistrarEvento(EventoTipoEnum.ErrorSistema, username, ex.Message, EventoCriticidadEnum.Alta);
+                //if (!(ex is UsuarioInvalidoException) && !(ex is UsuarioBloqueadoException))
+                //    _bitacoraBLL.RegistrarEvento(EventoTipoEnum.ErrorSistema, username, ex.Message, EventoCriticidadEnum.Alta);
 
-                Response.Write("<script>alert('Error: " + ex.Message + "');</script>");
+                Response.Write("<script>alert('Error: " + ex.Message + password + "');</script>");
                 return;
             }
         }

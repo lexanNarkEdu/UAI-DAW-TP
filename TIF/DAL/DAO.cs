@@ -100,5 +100,30 @@ namespace DAL
             }
         }
 
+        public int ExecuteNonQuery(string pCommandText, List<SqlParameter> parametros, CommandType tipo)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand(pCommandText, miConnection))
+                {
+                    command.CommandType = tipo;
+                    if (parametros != null)
+                        command.Parameters.AddRange(parametros.ToArray());
+
+                    miConnection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception)
+            {
+                throw; 
+            }
+            finally
+            {
+                if (miConnection.State != ConnectionState.Closed)
+                    miConnection.Close();
+            }
+        }
+
     }
 }

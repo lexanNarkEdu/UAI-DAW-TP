@@ -18,6 +18,8 @@ namespace TIF.UI.Helpers
                     return PermisoENUMBE.VerProductos;
                 case "/ABMUsuarios":
                     return PermisoENUMBE.ABMUsuarios;
+                case "/ABMProductos":
+                    return PermisoENUMBE.ABMProductos;
                 case "/Bitacora":
                     return PermisoENUMBE.GestionarBitacoraEventos;
                 case "/Backup":

@@ -35,7 +35,7 @@ namespace TIF.UI
                 liBitacora.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aBitacora.HRef));
                 liABMUsuarios.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMUsuarios.HRef));
                 liProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aProductos.HRef));
-                liABMProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMUsuarios.HRef));
+                liABMProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMProductos.HRef));
             }
         }
 

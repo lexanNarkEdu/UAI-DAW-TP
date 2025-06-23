@@ -38,6 +38,11 @@ namespace BLL
             return _dal.ObtenerPorCategoriaYCondicion(categoriaId, condicionId);
         }
 
+        public Producto ObtenerPorId(int id)
+        {
+            return _dal.ObtenerPorId(id);
+        }
+
         public void Agregar(Producto producto)
         {
             if (producto == null)
@@ -72,6 +77,16 @@ namespace BLL
                 throw new ArgumentException("Información de usuario es obligatoria.", nameof(producto.UsuarioCreacion));
 
             _dal.Agregar(producto);
+        }
+
+        public void Eliminar(int idProducto)
+        {
+            throw new NotImplementedException("Eliminar todavía no está implementado.");
+        }
+
+        public void Modificar(Producto producto)
+        {
+            throw new NotImplementedException("Modificar todavía no está implementado.");
         }
 
     }

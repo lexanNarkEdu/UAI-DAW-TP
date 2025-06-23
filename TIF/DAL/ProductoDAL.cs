@@ -93,9 +93,32 @@ namespace DAL
             return _mapper.MapAll(dt).ToList();
         }
 
-        public int Agregar(Producto p)
+        public Producto ObtenerPorId(int id)
         {
-            var sql = @"
+            const string sql = @"
+                SELECT 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, 
+                    p.categoria_id, p.condicion_id, p.producto_activo, 
+                    p.producto_fecha_creacion, p.producto_usuario_creacion
+                FROM Producto p
+                WHERE p.producto_id = @id";
+
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@id", SqlDbType.Int) { Value = id }
+            };
+
+            DataTable dt = _dao.Read(sql, parametros, CommandType.Text);
+
+            if (dt.Rows.Count == 0)
+                return null;
+
+            return _mapper.MapToEntity(dt.Rows[0]);
+        }
+
+        public int Agregar(Producto producto)
+        {
+            const string sql = @"
                 INSERT INTO Producto
                 (producto_nombre, producto_precio, producto_foto,
                     producto_descripcion, producto_stock,
@@ -111,23 +134,73 @@ namespace DAL
                     1,
                     GETDATE(), GETDATE(),
                     @UsuarioCreacion,
-                    '')";  // ajusta DVH según tu lógica
-            int result = _dao.Write(sql,
-                new List<SqlParameter>
+                    '')";
+
+            var parametros = new List<SqlParameter>
                 {
-                _dao.CreateParameter("@Nombre", p.Nombre),
-                _dao.CreateParameter("@Precio", p.Precio),
-                _dao.CreateParameter("@Foto", p.Foto),
-                _dao.CreateParameter("@Descripcion", p.Descripcion),
-                _dao.CreateParameter("@Stock", p.Stock),
-                _dao.CreateParameter("@CategoriaId", p.CategoriaId),
-                _dao.CreateParameter("@CondicionId", p.CondicionId),
-                _dao.CreateParameter("@UsuarioCreacion", p.UsuarioCreacion)
-                },
-                CommandType.Text);
+                    _dao.CreateParameter("@Nombre", producto.Nombre),
+                    _dao.CreateParameter("@Precio", producto.Precio),
+                    _dao.CreateParameter("@Foto", producto.Foto),
+                    _dao.CreateParameter("@Descripcion", producto.Descripcion),
+                    _dao.CreateParameter("@Stock", producto.Stock),
+                    _dao.CreateParameter("@CategoriaId", producto.CategoriaId),
+                    _dao.CreateParameter("@CondicionId", producto.CondicionId),
+                    _dao.CreateParameter("@UsuarioCreacion", producto.UsuarioCreacion)
+                };
 
-            return result;
+            return _dao.ExecuteNonQuery(sql, parametros, CommandType.Text);
+        }
 
+
+        public int Modificar(Producto producto)
+        {
+            const string sql = @"
+                UPDATE Producto
+                SET 
+                    producto_nombre = @Nombre,
+                    producto_precio = @Precio,
+                    producto_foto = @Foto,
+                    producto_descripcion = @Descripcion,
+                    producto_stock = @Stock,
+                    categoria_id = @CategoriaId,
+                    condicion_id = @CondicionId,
+                    producto_fecha_modificacion = GETDATE(),
+                    producto_usuario_modificacion = @UsuarioModificacion
+                WHERE producto_id = @Id";
+
+                var parametros = new List<SqlParameter>
+                {
+                    _dao.CreateParameter("@Id", producto.ProductoId),
+                    _dao.CreateParameter("@Nombre", producto.Nombre),
+                    _dao.CreateParameter("@Precio", producto.Precio),
+                    _dao.CreateParameter("@Foto", producto.Foto),
+                    _dao.CreateParameter("@Descripcion", producto.Descripcion),
+                    _dao.CreateParameter("@Stock", producto.Stock),
+                    _dao.CreateParameter("@CategoriaId", producto.CategoriaId),
+                    _dao.CreateParameter("@CondicionId", producto.CondicionId),
+                    //_dao.CreateParameter("@UsuarioModificacion", producto.UsuarioModificacion)
+                };
+
+            return _dao.ExecuteNonQuery(sql, parametros, CommandType.Text);
+        }
+
+        public int Eliminar(int id, string usuarioEliminacion)
+        {
+            const string sql = @"
+                UPDATE Producto
+                SET 
+                    producto_activo = 0,
+                    producto_usuario_eliminacion = @UsuarioEliminacion,
+                    producto_fecha_eliminacion = GETDATE()
+                WHERE producto_id = @Id";
+
+                    var parametros = new List<SqlParameter>
+            {
+                _dao.CreateParameter("@Id", id),
+                _dao.CreateParameter("@UsuarioEliminacion", usuarioEliminacion)
+            };
+
+            return _dao.ExecuteNonQuery(sql, parametros, CommandType.Text);
         }
     }
 }
