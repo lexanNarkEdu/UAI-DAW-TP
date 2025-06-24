@@ -25,7 +25,7 @@ namespace DAL
             const string sql = @"
                 SELECT 
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_verificador_horizontal 
+                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p 
                 ORDER BY p.producto_fecha_creacion DESC";
 
@@ -38,7 +38,7 @@ namespace DAL
             const string sql = @"
                 SELECT 
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_verificador_horizontal 
+                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
                 WHERE p.producto_activo = 1 
                 ORDER BY p.producto_fecha_creacion DESC";
@@ -50,41 +50,55 @@ namespace DAL
         public List<Producto> ObtenerPorCategoria(int categoriaId)
         {
             const string sql = @"
-              SELECT 
+                SELECT 
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_verificador_horizontal 
-              FROM Producto p 
-              WHERE p.producto_activo = 1
+                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                FROM Producto p 
+                WHERE p.producto_activo = 1
                 AND p.categoria_id = @CategoriaId
-              ORDER BY p.producto_fecha_creacion DESC";
+                ORDER BY p.producto_fecha_creacion DESC";
             var parametros = new List<SqlParameter>
-    {
-        new SqlParameter("@CategoriaId", categoriaId)
-    };
+                {
+                    new SqlParameter("@CategoriaId", categoriaId)
+                };
             var dt = _dao.Read(sql, parametros, CommandType.Text);
             return _mapper.MapAll(dt).ToList();
         }
 
-        public List<Producto> ObtenerPorCategoriaYCondicion(int? categoriaId, int? condicionId)
+        public List<Producto> ObtenerPorCategoriaYCondicion(int? categoriaId, int? condicionId, bool activo)
         {
             var sql = new StringBuilder(@"
                 SELECT
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_verificador_horizontal 
-                FROM Producto p
-                WHERE p.producto_activo = 1 ");
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto,
+                    p.producto_descripcion, p.producto_stock, categoria_id, 
+                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
+                FROM Producto p ");
 
+            var condiciones = new List<string>();
             var parametros = new List<SqlParameter>();
 
+            // Condiciones dinámicas
+            if (activo)
+            {
+                condiciones.Add("p.producto_activo = @activo");
+                parametros.Add(new SqlParameter("@activo", activo));
+            }
             if (categoriaId.HasValue)
             {
-                sql.Append(" AND p.categoria_id = @CategoriaId");
+                condiciones.Add("p.categoria_id = @CategoriaId");
                 parametros.Add(new SqlParameter("@CategoriaId", categoriaId.Value));
             }
             if (condicionId.HasValue)
             {
-                sql.Append(" AND p.condicion_id = @CondicionId");
+                condiciones.Add("p.condicion_id = @CondicionId");
                 parametros.Add(new SqlParameter("@CondicionId", condicionId.Value));
+            }
+
+            // Si hay condiciones, las agregamos con WHERE
+            if (condiciones.Count > 0)
+            {
+                sql.Append(" WHERE ");
+                sql.Append(string.Join(" AND ", condiciones));
             }
 
             sql.Append(" ORDER BY p.producto_fecha_creacion DESC");
@@ -98,8 +112,7 @@ namespace DAL
             const string sql = @"
                 SELECT 
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, 
-                    p.categoria_id, p.condicion_id, p.producto_activo, 
-                    p.producto_fecha_creacion, p.producto_usuario_creacion
+                    p.categoria_id, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p
                 WHERE p.producto_id = @id";
 
@@ -125,8 +138,7 @@ namespace DAL
                     categoria_id, condicion_id,
                     producto_activo,
                     producto_fecha_creacion, producto_fecha_modificacion,
-                    producto_usuario_creacion,
-                    producto_verificador_horizontal)
+                    producto_usuario_creacion)
                 VALUES
                 (@Nombre, @Precio, @Foto,
                     @Descripcion, @Stock,

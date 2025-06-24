@@ -16,10 +16,11 @@
 
         <!-- 2) SECCIÓN FILTRO POR CATEGORÍA -->
         <asp:Panel ID="pnlFiltro" runat="server" CssClass="card align-items-center" Style="display: block;">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
                     <i class="bi bi-funnel pe-2"></i>Filtros de Búsqueda
                 </h5>
+                <asp:Label ID="lblcantidadProductosResultado" runat="server" CssClass="badge bg-secondary" />
             </div>
             <div class="card-body">
                 <section class="card-body">

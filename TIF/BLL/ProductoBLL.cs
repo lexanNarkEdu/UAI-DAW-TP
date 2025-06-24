@@ -33,9 +33,9 @@ namespace BLL
             return _dal.ObtenerPorCategoria(categoriaId);
         }
 
-        public List<Producto> ObtenerPorCategoriaYCondicion(int? categoriaId, int? condicionId)
+        public List<Producto> ObtenerPorCategoriaYCondicion(int? categoriaId, int? condicionId, bool activo)
         {
-            return _dal.ObtenerPorCategoriaYCondicion(categoriaId, condicionId);
+            return _dal.ObtenerPorCategoriaYCondicion(categoriaId, condicionId, activo);
         }
 
         public Producto ObtenerPorId(int id)

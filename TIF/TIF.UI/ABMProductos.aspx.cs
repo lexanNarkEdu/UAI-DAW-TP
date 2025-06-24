@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BE;
+using BE.Permisos;
 using BLL;
+using TIF.UI.Helpers;
 
 namespace TIF.UI
 {
@@ -72,10 +74,14 @@ namespace TIF.UI
             if (int.TryParse(ddlFiltroCondiciones.SelectedValue, out int cond))
                 condicionId = cond;
 
+            var permisos = Session["UsuarioPermisos"] as List<PermisoBE>;
+            bool permisoParaVerProductosInactivos = !new RoLBLL().EstaPermisoEnRol(permisos, PermisoENUMBE.BajarProducto);
 
-            var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId);
+            var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId, permisoParaVerProductosInactivos);
+
             gvProductos.DataSource = lista;
             gvProductos.DataBind();
+            lblcantidadProductosResultado.Text = $"{lista.Count} evento(s) encontrado(s)";
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
@@ -146,6 +152,15 @@ namespace TIF.UI
             ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModal", "$('#productoModal').modal('show');", true);
         }
 
+        //protected void btnEditar(object sender, EventArgs e)
+        //{
+
+        //}
+
+        //protected void btnEliminar(object sender, EventArgs e)
+        //{
+
+        //}
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -170,6 +185,18 @@ namespace TIF.UI
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                // Verificamos si el usuario tiene permiso para eliminar
+                var permisos = Session["UsuarioPermisos"] as List<PermisoBE>;
+                bool tienePermiso = new RoLBLL().EstaPermisoEnRol(permisos, PermisoENUMBE.BajarProducto);
+
+                // Buscamos el botón dentro de la fila
+                var btnEliminar = e.Row.FindControl("btnEliminar") as LinkButton;
+                if (btnEliminar != null)
+                {
+                    btnEliminar.Visible = tienePermiso;
+                }
+
+                // genera link de redirección
                 var productoId = DataBinder.Eval(e.Row.DataItem, "ProductoId").ToString();
                 string url = $"DetalleProducto.aspx?id={productoId}";
 

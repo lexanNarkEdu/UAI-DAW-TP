@@ -14,10 +14,8 @@
             </div>
         </div>
 
-        <!-- 1) SECCIÓN NUEVO PRODUCTO -->
-        <%--
-            <asp:Button ID="btnNuevo" runat="server" CssClass="btn btn-lg btn-success mb-4" Text="Nuevo Producto" OnClick="btnNuevo_Click" Visible="true" /> 
-        --%>
+        <!-- 1) SECCIÓN NUEVO PRODUCTO    -->
+        <asp:Button ID="btnNuevo" runat="server" CssClass="btn btn-lg btn-success mb-4" Text="Nuevo Producto" OnClick="btnNuevo_Click" Visible="true" />
 
 
         <!-- 2) SECCIÓN FILTRO POR CATEGORÍA -->
@@ -29,25 +27,28 @@
             </section>
             <section class="card-body">
                 <div class="row g-3 mb-4">
+                    <!-- Filtro por Nombre y Categorias 
+                    <div class="col-auto d-flex align-items-center">
+                        <asp:Label ID="lblFiltroNombre" runat="server" Text="Busca Producto:" AssociatedControlID="ddlFiltroNombre" CssClass="me-2" />
+                        <asp:TextBox ID="ddlFiltroNombre" runat="server" CssClass="form-control" />
+                    </div>
+                     -->
                     <!-- Filtro por Categoría -->
                     <div class="col-auto d-flex align-items-center">
-                        <asp:Label ID="lblFiltroCategoria" runat="server" Text="Categoría:"
-                            AssociatedControlID="ddlFiltroCategorias" CssClass="me-2" />
-                        <asp:DropDownList ID="ddlFiltroCategorias" runat="server"
-                            CssClass="form-select" />
+                        <asp:Label ID="lblFiltroCategoria" runat="server" Text="Categoría:" AssociatedControlID="ddlFiltroCategorias" CssClass="me-2" />
+                        <asp:DropDownList ID="ddlFiltroCategorias" runat="server" CssClass="form-select" />
                     </div>
                     <!-- Filtro por Condición -->
                     <div class="col-auto d-flex align-items-center">
-                        <asp:Label ID="lblFiltroCondicion" runat="server" Text="Condición:"
-                            AssociatedControlID="ddlFiltroCondiciones" CssClass="me-2" />
-                        <asp:DropDownList ID="ddlFiltroCondiciones" runat="server"
-                            CssClass="form-select" />
+                        <asp:Label ID="lblFiltroCondicion" runat="server" Text="Condición:" AssociatedControlID="ddlFiltroCondiciones" CssClass="me-2" />
+                        <asp:DropDownList ID="ddlFiltroCondiciones" runat="server" CssClass="form-select" />
                     </div>
                     <!-- Botón para buscar con los filtros seleccionados -->
                     <div class="col-auto">
                         <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" CausesValidation="false" />
                     </div>
                     <!-- Botón para limpiar ambos filtros -->
+                    <br />
                     <div class="col-auto">
                         <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar Filtros" CssClass="btn btn-outline-secondary btn-sm" OnClick="btnLimpiarFiltros_Click" CausesValidation="false" />
                     </div>
@@ -57,10 +58,11 @@
 
         <asp:Panel ID="pnlResultado" runat="server" CssClass="card align-items-center" Style="display: block;">
             <!-- 3) LISTADO DE PRODUCTOS -->
-            <section class="card-header">
+            <section class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
                     <i class="bi bi-list-ul pe-2"></i>Resultados
                 </h5>
+                <asp:Label ID="lblcantidadProductosResultado" runat="server" CssClass="badge bg-secondary" />
             </section>
             <section class="card-body">
                 <div class="table-responsive">
@@ -77,7 +79,7 @@
                             </asp:TemplateField>
                             <asp:BoundField DataField="ProductoId" HeaderText="ID" />
                             <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                            <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" ItemStyle-CssClass="text-nowrap"/>
+                            <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" ItemStyle-CssClass="text-nowrap" />
                             <asp:BoundField DataField="Stock" HeaderText="Stock" />
                             <asp:BoundField DataField="CategoriaId" HeaderText="Categoría" />
                             <asp:TemplateField HeaderText="Condición">
@@ -97,21 +99,22 @@
                                     </div>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <%-- 
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-center">
                                         <asp:LinkButton ID="btnEditar" runat="server" CommandName="Editar" CommandArgument='<%# Eval("ProductoId") %>'
                                             CssClass="btn btn-sm btn-primary m-1" ToolTip="Editar">
-                                    <i class="bi bi-pencil-square"></i>
+                                                <i class="bi bi-pencil-square"></i>
                                         </asp:LinkButton>
-
-                                        <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("ProductoId") %>'
+                                        <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar"
                                             CssClass="btn btn-sm btn-danger m-1" ToolTip="Eliminar">
-                                    <i class="bi bi-trash-fill"></i>
+                                                 <i class="bi bi-trash-fill"></i>
                                         </asp:LinkButton>
                                     </div>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            --%>
                         </Columns>
                     </asp:GridView>
                 </div>

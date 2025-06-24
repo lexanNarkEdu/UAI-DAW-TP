@@ -15,6 +15,15 @@ namespace TIF.UI
     {
 
         /// <summary>
+        /// btnNuevo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNuevo;
+
+        /// <summary>
         /// pnlFiltro control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,24 @@ namespace TIF.UI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlFiltro;
+
+        /// <summary>
+        /// lblFiltroNombre control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFiltroNombre;
+
+        /// <summary>
+        /// ddlFiltroNombre control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ddlFiltroNombre;
 
         /// <summary>
         /// lblFiltroCategoria control.
@@ -85,6 +112,15 @@ namespace TIF.UI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlResultado;
+
+        /// <summary>
+        /// lblcantidadProductosResultado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblcantidadProductosResultado;
 
         /// <summary>
         /// gvProductos control.
