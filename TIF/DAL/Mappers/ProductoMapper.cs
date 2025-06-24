@@ -13,6 +13,9 @@ namespace DAL.Mappers
         public override Producto MapToEntity(DataRow row)
         {
             if (row == null) return null;
+            
+            var categoria = new CategoriaMapper().MapToEntity(row);
+            
             return new Producto
             {
                 ProductoId = Convert.ToInt32(row["producto_id"]),
@@ -26,7 +29,8 @@ namespace DAL.Mappers
                 Activo = Convert.ToBoolean(row["producto_activo"]),
                 FechaCreacion = Convert.ToDateTime(row["producto_fecha_creacion"]),
                 UsuarioCreacion = row["producto_usuario_creacion"].ToString(),
-                VerificadorHorizontal = row["producto_verificador_horizontal"].ToString()
+                //VerificadorHorizontal = row["producto_verificador_horizontal"].ToString()
+                CategoriaNombre = categoria.Nombre,
             };
         }
     }

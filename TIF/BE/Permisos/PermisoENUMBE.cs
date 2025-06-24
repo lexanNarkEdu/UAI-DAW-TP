@@ -11,6 +11,9 @@ namespace BE.Permisos
         //Acá no van roles, van acciones
         SinPermisos,
         ABMProductos,
+        AgregarProducto,
+        BajarProducto,
+        ModificarProducto,
         ABMUsuarios,
         GestionarBitacoraEventos,
         GestionarBitacoraCambios,

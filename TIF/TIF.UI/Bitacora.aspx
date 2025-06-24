@@ -21,7 +21,6 @@
             </h5>
         </div>
         <div class="card-body">
-            <form method="get" action="Bitacora.aspx">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
@@ -76,7 +75,6 @@
                                     CssClass="btn btn-outline-secondary btn-sm" OnClick="btnLimpiar_Click" />
                     </div>
                 </div>
-            </form>
         </div>
     </div>
 

@@ -2,6 +2,7 @@
 using BLL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -74,9 +75,10 @@ namespace TIF.UI
                 condicionId = cond;
 
             // Llama a un nuevo overload que acepte ambos filtros
-            var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId);
+            var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId, true);
             lvProductos.DataSource = lista;
             lvProductos.DataBind();
+            lblcantidadProductosResultado.Text = $"{lista.Count} evento(s) encontrado(s)";
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)

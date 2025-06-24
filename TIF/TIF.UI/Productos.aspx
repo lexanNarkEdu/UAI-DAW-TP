@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="mb-4">
-                    <i class="bi bi-journal-text"></i> <%:Title%>
+                    <i class="bi bi-journal-text pe-3"></i><%:Title%>
                 </h2>
                 <p class="text-muted mb-4">
                     Consulta y filtra todos los productos. 
@@ -16,10 +16,11 @@
 
         <!-- 2) SECCIÓN FILTRO POR CATEGORÍA -->
         <asp:Panel ID="pnlFiltro" runat="server" CssClass="card align-items-center" Style="display: block;">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
-                    <i class="bi bi-funnel"></i>Filtros de Búsqueda
+                    <i class="bi bi-funnel pe-2"></i>Filtros de Búsqueda
                 </h5>
+                <asp:Label ID="lblcantidadProductosResultado" runat="server" CssClass="badge bg-secondary" />
             </div>
             <div class="card-body">
                 <section class="card-body">
@@ -61,7 +62,6 @@
                             <div class="col-sm-3 col-md-3 mb-3">
                                 <a href="DetalleProducto.aspx?id=<%# Eval("ProductoId") %>"
                                     class="text-decoration-none text-dark d-block h-100">
-                                    <!-- Agregamos product-card junto a las clases de bootstrap -->
                                     <div class="card h-100 shadow product-card">
                                         <div class="card-img-top p-4 d-flex" style="align-items: center; height: inherit;">
                                             <img src='<%# Eval("Foto") %>' class="img-fluid d-block mx-auto" alt='<%# Eval("Nombre") %>' style="height: fit-content;" />
