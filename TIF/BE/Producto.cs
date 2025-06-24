@@ -15,6 +15,8 @@ namespace BE
         public string Descripcion { get; set; }
         public int Stock { get; set; }
         public int CategoriaId { get; set; }
+        
+        public string CategoriaNombre { get; set; }
         public int CondicionId { get; set; }
         public bool Activo { get; set; }
         public DateTime FechaCreacion { get; set; }
@@ -31,6 +33,7 @@ namespace BE
             string descripcion,
             int stock,
             int categoriaId,
+            string categoriaNombre,
             int condicionId,
             bool activo,
             DateTime fechaCreacion,
@@ -45,6 +48,7 @@ namespace BE
             Descripcion = descripcion;
             Stock = stock;
             CategoriaId = categoriaId;
+            CategoriaNombre = categoriaNombre;
             CondicionId = condicionId;
             Activo = activo;
             FechaCreacion = fechaCreacion;

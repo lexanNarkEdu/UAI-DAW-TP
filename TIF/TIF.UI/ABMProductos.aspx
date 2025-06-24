@@ -14,9 +14,9 @@
             </div>
         </div>
 
-        <!-- 1) SECCIÓN NUEVO PRODUCTO    -->
+        <!-- 1) SECCIÓN NUEVO PRODUCTO   
         <asp:Button ID="btnNuevo" runat="server" CssClass="btn btn-lg btn-success mb-4" Text="Nuevo Producto" OnClick="btnNuevo_Click" Visible="true" />
-
+        -->
 
         <!-- 2) SECCIÓN FILTRO POR CATEGORÍA -->
         <asp:Panel ID="pnlFiltro" runat="server" CssClass="card mb-4 align-items-center" Style="display: block;">
@@ -81,7 +81,7 @@
                             <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
                             <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" ItemStyle-CssClass="text-nowrap" />
                             <asp:BoundField DataField="Stock" HeaderText="Stock" />
-                            <asp:BoundField DataField="CategoriaId" HeaderText="Categoría" />
+                            <asp:BoundField DataField="categoriaNombre" HeaderText="Categoria" />
                             <asp:TemplateField HeaderText="Condición">
                                 <ItemTemplate>
                                     <%# GetCondicionTexto(Eval("CondicionId")) %>

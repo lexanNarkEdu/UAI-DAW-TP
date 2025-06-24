@@ -19,13 +19,11 @@ namespace BLL
         }
         public List<Producto> ObtenerTodos()
         {
-            // Aquí podrías aplicar validaciones o reglas de negocio
             return _dal.ObtenerTodos();
         }
 
         public List<Producto> ObtenerTodosActivos()
         {
-            // Aquí podrías aplicar validaciones o reglas de negocio
             return _dal.ObtenerTodosActivos();
         }
 
@@ -48,32 +46,32 @@ namespace BLL
         {
             if (producto == null)
                 throw new ArgumentNullException(nameof(producto), "El producto no puede ser nulo.");
-            // Nombre
+
             if (string.IsNullOrWhiteSpace(producto.Nombre))
                 throw new ArgumentException("El nombre es obligatorio.", nameof(producto.Nombre));
-            // Precio
+
             if (producto.Precio <= 0)
                 throw new ArgumentException("El precio debe ser mayor que cero.", nameof(producto.Precio));
-            // Descripción
+
             if (string.IsNullOrWhiteSpace(producto.Descripcion))
                 throw new ArgumentException("La descripción es obligatoria.", nameof(producto.Descripcion));
-            // Stock
+
             if (producto.Stock < 0)
                 throw new ArgumentException("El stock no puede ser negativo.", nameof(producto.Stock));
-            // Foto (URL)
+
             if (string.IsNullOrWhiteSpace(producto.Foto))
                 throw new ArgumentException("La URL de la foto es obligatoria.", nameof(producto.Foto));
-            // Categoría
+
             if (producto.CategoriaId <= 0)
                 throw new ArgumentException("Debes seleccionar una categoría válida.", nameof(producto.CategoriaId));
-            // Condición
+
             if (producto.CondicionId <= 0)
                 throw new ArgumentException("Debes seleccionar una condición válida.", nameof(producto.CondicionId));
             // (Con enum CondicionEnum en tu capa BE:
             // if (!Enum.IsDefined(typeof(CondicionEnum), producto.CondicionId))
             //     throw new ArgumentException("Condición no reconocida.", nameof(producto.CondicionId));
             // )
-            // UsuarioCreacion
+
             if (string.IsNullOrWhiteSpace(producto.UsuarioCreacion))
                 throw new ArgumentException("Información de usuario es obligatoria.", nameof(producto.UsuarioCreacion));
 

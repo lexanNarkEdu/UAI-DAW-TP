@@ -27,6 +27,8 @@ namespace DAL
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
                     p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id
                 ORDER BY p.producto_fecha_creacion DESC";
 
             DataTable dt = _dao.Read(sql, commandType: CommandType.Text);
@@ -40,6 +42,8 @@ namespace DAL
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
                     p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id
                 WHERE p.producto_activo = 1 
                 ORDER BY p.producto_fecha_creacion DESC";
 
@@ -54,6 +58,8 @@ namespace DAL
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
                     p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id
                 WHERE p.producto_activo = 1
                 AND p.categoria_id = @CategoriaId
                 ORDER BY p.producto_fecha_creacion DESC";
@@ -70,9 +76,11 @@ namespace DAL
             var sql = new StringBuilder(@"
                 SELECT
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto,
-                    p.producto_descripcion, p.producto_stock, categoria_id, 
+                    p.producto_descripcion, p.producto_stock, p.categoria_id, c.categoria_nombre,
                     p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
-                FROM Producto p ");
+                FROM Producto p
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id ");
 
             var condiciones = new List<string>();
             var parametros = new List<SqlParameter>();
@@ -94,7 +102,6 @@ namespace DAL
                 parametros.Add(new SqlParameter("@CondicionId", condicionId.Value));
             }
 
-            // Si hay condiciones, las agregamos con WHERE
             if (condiciones.Count > 0)
             {
                 sql.Append(" WHERE ");
@@ -114,6 +121,8 @@ namespace DAL
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, 
                     p.categoria_id, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id
                 WHERE p.producto_id = @id";
 
             var parametros = new List<SqlParameter>
