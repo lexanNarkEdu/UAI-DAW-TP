@@ -71,7 +71,16 @@ namespace TIF.UI
                 Session["UsuarioCorreo"] = usuario.Email;
                 Session["UsuarioRol"] = usuario.ListaDePermisos[0].Nombre;
                 Session["UsuarioPermisos"] = usuario.ListaDePermisos;
-                Response.Redirect("Home.aspx", false);
+
+                if (usuario.ListaDePermisos[0].Nombre == "Cliente")
+                {
+                    Response.Redirect("Productos.aspx", false);
+                }
+                else
+                {
+                    Response.Redirect("Home.aspx", false);
+                }
+
             }
             catch (Exception ex)
             {

@@ -13,3 +13,10 @@
 | **Administrador** | ✅                        | ✅                        | ✅               | ✅           | ✅            | ✅               | ✅             | ✅                 | ✅            |
 | **Operador**      | ❌                        | ❌                        | ❌               | ❌           | ✅            | ✅               | ❌             | ✅                 | ✅            |
 | **Cliente**       | ❌                        | ❌                        | ❌               | ❌           | ❌            | ❌               | ❌             | ❌                 | ✅            |
+
+### Productos
+
+- Banner
+- Promocionados
+- Ultimos ingresos
+- Categorias destacadas (Pueden ser dos)
