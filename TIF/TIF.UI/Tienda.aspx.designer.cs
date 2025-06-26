@@ -11,7 +11,7 @@ namespace TIF.UI
 {
 
 
-    public partial class Productos
+    public partial class Tienda
     {
 
         /// <summary>

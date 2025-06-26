@@ -74,7 +74,7 @@ namespace TIF.UI
 
                 if (usuario.ListaDePermisos[0].Nombre == "Cliente")
                 {
-                    Response.Redirect("Productos.aspx", false);
+                    Response.Redirect("Tienda.aspx", false);
                 }
                 else
                 {

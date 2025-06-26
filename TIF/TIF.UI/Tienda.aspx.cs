@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace TIF.UI
 {
-    public partial class Productos : Page
+    public partial class Tienda : Page
     {
         private readonly ProductoBLL _productoBLL = new ProductoBLL();
         private readonly CategoriaBLL _categoriaBLL = new CategoriaBLL();
@@ -78,7 +78,7 @@ namespace TIF.UI
             var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId, true);
             lvProductos.DataSource = lista;
             lvProductos.DataBind();
-            lblcantidadProductosResultado.Text = $"{lista.Count} evento(s) encontrado(s)";
+            lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)

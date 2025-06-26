@@ -42,6 +42,11 @@ namespace BLL
             return _dal.ObtenerPorId(id);
         }
 
+        public List<Producto> ObtenerDestacados(int cantidad=3)
+        {
+            return _dal.ObtenerDestacados(cantidad);
+        }
+
         public void Agregar(Producto producto)
         {
             if (producto == null)

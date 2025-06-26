@@ -12,8 +12,8 @@ namespace DAL.Mappers
     {
         public override Categoria MapToEntity(DataRow row) => new Categoria
         {
-            CategoriaId = Convert.ToInt32(row["categoria_id"]),
-            Nombre = row["categoria_nombre"].ToString()
+            CategoriaId = Convert.ToInt32(row["Categoria_id"]),
+            Nombre = row["Categoria_nombre"].ToString()
         };
     }
 }

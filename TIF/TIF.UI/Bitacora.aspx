@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="mb-4">
-                    <i class="bi bi-journal-text"></i>Bitácora del Sistema
+                    <i class="bi bi-journal-text pe-1"></i>Bitácora del Sistema
                 </h2>
                 <p class="text-muted mb-4">
                     Consulta y filtra los eventos registrados en el sistema. 

@@ -104,7 +104,8 @@
     <Content Include="About.aspx" />
     <Content Include="ABMUsuarios.aspx" />
     <Content Include="Bitacora.aspx" />
-    <Content Include="Productos.aspx" />
+    <Content Include="Tienda.aspx" />
+    <Content Include="Default.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -220,12 +221,19 @@
       <DependentUpon>Bitacora.aspx</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RouteToPermisoHelper.cs" />
-    <Compile Include="Productos.aspx.cs">
-      <DependentUpon>Productos.aspx</DependentUpon>
+    <Compile Include="Tienda.aspx.cs">
+      <DependentUpon>Tienda.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Productos.aspx.designer.cs">
-      <DependentUpon>Productos.aspx</DependentUpon>
+    <Compile Include="Tienda.aspx.designer.cs">
+      <DependentUpon>Tienda.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -292,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

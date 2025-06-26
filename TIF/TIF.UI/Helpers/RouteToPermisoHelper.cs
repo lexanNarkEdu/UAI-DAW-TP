@@ -14,7 +14,7 @@ namespace TIF.UI.Helpers
 
             switch (subPath)
             {
-                case "/Productos":
+                case "/Tienda":
                     return PermisoENUMBE.VerProductos;
                 case "/ABMUsuarios":
                     return PermisoENUMBE.ABMUsuarios;

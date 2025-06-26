@@ -22,22 +22,39 @@ namespace TIF.UI
         {
             // Controlar visibilidad del navbar basado en la sesión
             bool usuarioLogueado = Session["Username"] != null;
-            NavbarPanel.Visible = usuarioLogueado;
+            if (Request.Path.EndsWith("/Login"))
+                NavbarPanel.Visible = usuarioLogueado;
 
             // Si hay usuario logueado, mostrar su nombre en el navbar
             if (usuarioLogueado)
             {
+                Login.Visible = false;
                 string nombre = Session["UsuarioNombre"].ToString();
                 string apellido = Session["UsuarioApellido"]?.ToString() ?? "";
                 UsuarioLogueado.Text = $"{nombre} {apellido}".Trim();
-
+                
+                if (Session["UsuarioRol"].ToString() == "Cliente")
+                    liHome.Visible = false;
                 var permisos = Session["UsuarioPermisos"] as List<PermisoBE>;
                 liBitacora.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aBitacora.HRef));
                 liABMUsuarios.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMUsuarios.HRef));
                 liProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aProductos.HRef));
                 liABMProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMProductos.HRef));
             }
+            else
+            {
+                liHome.Visible = false;
+                LogoutButton.Visible = false;
+                liBitacora.Visible = false;
+                liABMUsuarios.Visible = false;
+                liProductos.Visible = false;
+                liABMProductos.Visible = false;
+            }
         }
+        protected void LoginButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx");
+        }            
 
         protected void LogoutButton_Click(object sender, EventArgs e)
         {
@@ -60,7 +77,7 @@ namespace TIF.UI
                 // Limpiar sesión y redirigir al login
                 Session.Clear();
                 Session.Abandon();
-                Response.Redirect("Login.aspx", false);
+                Response.Redirect("Default.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
             }
         }
@@ -125,7 +142,7 @@ namespace TIF.UI
 
             if (tienePermiso)
             {
-                Response.Redirect("~/Bitacora.aspx", false);
+                Response.Redirect("~/ABMUsuarios.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -160,7 +177,7 @@ namespace TIF.UI
 
             if (tienePermiso)
             {
-                Response.Redirect("~/Bitacora.aspx", false);
+                Response.Redirect("~/Tienda.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else

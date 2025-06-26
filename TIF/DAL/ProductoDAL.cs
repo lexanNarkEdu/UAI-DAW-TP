@@ -24,8 +24,8 @@ namespace DAL
         {
             const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id,
+                    c.categoria_nombre, p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p 
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id
@@ -39,8 +39,8 @@ namespace DAL
         {
             const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id
@@ -55,8 +55,8 @@ namespace DAL
         {
             const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id
@@ -136,6 +136,25 @@ namespace DAL
                 return null;
 
             return _mapper.MapToEntity(dt.Rows[0]);
+        }
+
+        public List<Producto> ObtenerDestacados(int cantidad)
+        {
+            const string sql = @"
+                SELECT TOP @cantidad
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id
+                WHERE p.producto_activo = 1
+                ORDER BY p.producto_fecha_creacion DESC";
+            var parametros = new List<SqlParameter>
+                {
+                    new SqlParameter("@cantidad", cantidad)
+                };
+            var dt = _dao.Read(sql, parametros, CommandType.Text);
+            return _mapper.MapAll(dt).ToList();
         }
 
         public int Agregar(Producto producto)
