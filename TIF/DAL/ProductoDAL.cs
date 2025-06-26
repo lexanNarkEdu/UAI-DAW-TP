@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
@@ -48,6 +49,28 @@ namespace DAL
                 ORDER BY p.producto_fecha_creacion DESC";
 
             DataTable dt = _dao.Read(sql, commandType: CommandType.Text);
+            return _mapper.MapAll(dt).ToList();
+        }
+
+        public List<Producto> ObtenerPorNombre(string query)
+        {
+            const string sql = @"
+                SELECT 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion,
+                    p.producto_stock, p.categoria_id, c.categoria_nombre, p.condicion_id, p.producto_activo, 
+                    p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_path_banner
+                FROM Producto p 
+                INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+                WHERE p.producto_activo = 1 AND 
+                ( LOWER(p.producto_nombre) LIKE @query OR LOWER(p.producto_descripcion) LIKE @query OR LOWER(c.categoria_nombre) LIKE @query )
+                ORDER BY p.producto_fecha_creacion DESC";
+            
+            var parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Query", $"%{query}%") 
+            };
+
+            var dt = _dao.Read(sql, parametros, CommandType.Text);
             return _mapper.MapAll(dt).ToList();
         }
 
@@ -147,7 +170,7 @@ namespace DAL
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id 
                 WHERE p.producto_activo = 1 AND p.producto_es_banner = 1
-                ORDER BY p.producto_fecha_creacion DESC";
+                ORDER BY p.producto_fecha_modificacion, p.producto_fecha_creacion DESC";
             var parametros = new List<SqlParameter>
                 {
                     new SqlParameter("@cantidad", cantidad)

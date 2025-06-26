@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <asp:Label ID="usuarioLabel" runat="server" Text="Usuario"></asp:Label>
                     &nbsp;&nbsp;&nbsp;
-                <asp:TextBox ID="usuarioTextbox" runat="server"></asp:TextBox>
+                <asp:TextBox ID="usuarioTextbox" runat="server" TextMode="SingleLine" Attributes="autofocus"></asp:TextBox>
                 </div>
 
                 <div class="form-group">

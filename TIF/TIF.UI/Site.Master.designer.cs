@@ -33,6 +33,24 @@ namespace TIF.UI
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liHome;
 
         /// <summary>
+        /// liProductos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProductos;
+
+        /// <summary>
+        /// aProductos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor aProductos;
+
+        /// <summary>
         /// liABMUsuarios control.
         /// </summary>
         /// <remarks>
@@ -67,24 +85,6 @@ namespace TIF.UI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor aABMProductos;
-
-        /// <summary>
-        /// liProductos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProductos;
-
-        /// <summary>
-        /// aProductos control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor aProductos;
 
         /// <summary>
         /// liBitacora control.

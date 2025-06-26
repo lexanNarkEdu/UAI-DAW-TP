@@ -3,27 +3,27 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <div id="carouselProductosDestacados" class="carousel slide mt-1" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <asp:ListView ID="lvProductoBanner" runat="server" ItemPlaceholderID="itemPlaceholder">
-                <LayoutTemplate>
-                    <div class="row">
-                        <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
+
+        <asp:ListView ID="lvProductoBanner" runat="server" ItemPlaceholderID="itemPlaceholder">
+            <LayoutTemplate>
+                <div class="carousel-inner">
+                    <asp:PlaceHolder ID="itemPlaceholder" runat="server" />
+                </div>
+            </LayoutTemplate>
+            <ItemTemplate>
+                <div class='carousel-item <%# Container.DataItemIndex == 0 ? "active" : "" %>'>
+                    <img src="<%# Eval("FotoBanner") %>" alt="<%# Eval("Nombre") %>">
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-10 rounded">
+                        <h5><%# Eval("Nombre") %></h5>
+                        <p>$<%# Eval("Precio", "{0:N0}") %></p>
                     </div>
-                </LayoutTemplate>
-                <ItemTemplate>
-                    <div class="carousel-item active">
-                        <img src="<%# Eval("FotoBanner") %>" alt="<%# Eval("Nombre") %>">
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-10 rounded">
-                            <h5><%# Eval("Nombre") %></h5>
-                            <p>$<%# Eval("Precio", "{0:N0}") %></p>
-                        </div>
-                    </div>
-                </ItemTemplate>
-                <EmptyDataTemplate>
-                    <div class="alert alert-info">No hay productos para mostrar.</div>
-                </EmptyDataTemplate>
-            </asp:ListView>
-        </div>
+                </div>
+            </ItemTemplate>
+            <EmptyDataTemplate>
+                <div class="alert alert-info">No hay productos para mostrar.</div>
+            </EmptyDataTemplate>
+        </asp:ListView>
+
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Anterior</span>
@@ -40,12 +40,14 @@
                     <span class="input-group-text border-end-0">
                         <i class="bi bi-search text-secondary"></i>
                     </span>
-                    <input
+                    <asp:TextBox
+                        ID="idDataBuscarProducto"
+                        runat="server"
                         type="text"
                         class="form-control border-start-0"
                         placeholder="Buscá tu producto"
-                        aria-label="Buscar producto">
-                    <button class="btn btn-primary" type="submit">Buscar!</button>
+                        aria-label="Buscar producto"></asp:TextBox>
+                    <asp:Button id="btnBuscar" runat="server" class="btn btn-primary" OnClick="btnBuscar_Click" Text="Buscar!"></asp:Button>
                 </div>
             </div>
         </div>

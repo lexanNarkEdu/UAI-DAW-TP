@@ -26,6 +26,12 @@ namespace BLL
         {
             return _dal.ObtenerTodosActivos();
         }
+        
+        public List<Producto> ObtenerPorNombre(string query)
+        {
+            query = query.ToLower();
+            return _dal.ObtenerPorNombre(query);
+        }
 
         public List<Producto> ObtenerPorCategoria(int categoriaId)
         {
@@ -46,12 +52,12 @@ namespace BLL
             return _dal.ObtenerBanner(cantidad);
         }
 
-        public List<Producto> ObtenerDestacados(int cantidad = 3)
+        public List<Producto> ObtenerDestacados(int cantidad = 4)
         {
             return _dal.ObtenerDestacados(cantidad);
         }
 
-        public List<Producto> ObtenerUltimosIngresos(int cantidad = 3)
+        public List<Producto> ObtenerUltimosIngresos(int cantidad = 4)
         {
             return _dal.ObtenerUltimosIngresos(cantidad);
         }

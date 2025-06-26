@@ -22,7 +22,7 @@ namespace TIF.UI
         protected void Application_PreRequestHandlerExecute(object sender, EventArgs e)
         {
             // Excluir páginas que no requieren validación
-            string[] paginasExcluidas = { "/Default", "/About", "/Contact", "/Login", "/Registro", "/SinPermisos", "/Error" };
+            string[] paginasExcluidas = { "/Default", "/Tienda", "/About", "/Contact", "/Login", "/Registro", "/SinPermisos", "/Error" };
             if (paginasExcluidas.Any(p => Request.Path.EndsWith(p)))
                 return;
 

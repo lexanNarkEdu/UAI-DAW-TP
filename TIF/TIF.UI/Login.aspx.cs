@@ -24,6 +24,7 @@ namespace TIF.UI
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            usuarioTextbox.Attributes.Add("autofocus", "autofocus");
             if (Session["ExitoRegistro"] != null) {
                 Response.Write("<script>alert('"+ Session["ExitoRegistro"].ToString() + "');</script>");
             }

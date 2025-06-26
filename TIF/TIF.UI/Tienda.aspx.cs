@@ -18,17 +18,28 @@ namespace TIF.UI
         protected void Page_Load(object sender, EventArgs e)
         {
             // Verificar que el usuario esté logueado
-            if (Session["Username"] == null && Session["UsuarioPermisos"] == null)
-            {
-                Response.Redirect("Login.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
-                return;
-            }
+            //if (Session["Username"] == null && Session["UsuarioPermisos"] == null)
+            //{
+            //    Response.Redirect("Login.aspx", false);
+            //    Context.ApplicationInstance.CompleteRequest();
+            //    return;
+            //}
 
             if (!IsPostBack)
             {
                 CargarDropdowns();
-                CargarProductos();
+                string query = Request.QueryString["query"] ?? null;
+                if (query != null)
+                {
+                    var lista = _productoBLL.ObtenerPorNombre(query.Trim());
+                    lvProductos.DataSource = lista;
+                    lvProductos.DataBind();
+                    lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
+                }
+                else
+                {
+                    CargarProductos();
+                }
             }
         }
 

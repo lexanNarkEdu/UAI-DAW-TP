@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -47,7 +48,22 @@ namespace TIF.UI
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            CargarProductos();
+            // Construir URL con parámetros de filtro
+            string url = "Tienda.aspx?";
+            List<string> parametros = new List<string>();
+
+            if (!string.IsNullOrEmpty(idDataBuscarProducto.Text.Trim()))
+            {
+                parametros.Add($"query={HttpUtility.UrlEncode(idDataBuscarProducto.Text.Trim())}");
+            }
+
+            if (parametros.Count > 0)
+            {
+                url += string.Join("&", parametros);
+            }
+
+            Response.Redirect(url, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         /// <summary>

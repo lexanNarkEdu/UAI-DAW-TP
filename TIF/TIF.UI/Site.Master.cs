@@ -38,7 +38,6 @@ namespace TIF.UI
                 var permisos = Session["UsuarioPermisos"] as List<PermisoBE>;
                 liBitacora.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aBitacora.HRef));
                 liABMUsuarios.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMUsuarios.HRef));
-                liProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aProductos.HRef));
                 liABMProductos.Visible = _roLBLL.EstaPermisoEnRol(permisos, PermisoToRouteHelper.ToPermiso(aABMProductos.HRef));
             }
             else
@@ -47,7 +46,6 @@ namespace TIF.UI
                 LogoutButton.Visible = false;
                 liBitacora.Visible = false;
                 liABMUsuarios.Visible = false;
-                liProductos.Visible = false;
                 liABMProductos.Visible = false;
             }
         }
