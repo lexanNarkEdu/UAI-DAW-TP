@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -31,11 +32,17 @@ namespace TIF.UI
 
         private void CargarProductos()
         {
-            // Llama a un nuevo overload que acepte ambos filtros
-            var lista = _productoBLL.ObtenerTodosActivos();
-            lvProductos.DataSource = lista;
+            var listaBanners = _productoBLL.ObtenerBanner();
+            lvProductoBanner.DataSource = listaBanners;
+            lvProductoBanner.DataBind();
+
+            var listaDestacados = _productoBLL.ObtenerDestacados();
+            lvProductos.DataSource = listaDestacados;
             lvProductos.DataBind();
-            //lblcantidadProductosResultado.Text = $"{lista.Count} evento(s) encontrado(s)";
+
+            var listaUltimosIngresos = _productoBLL.ObtenerUltimosIngresos();
+            lvUltimosIngresos.DataSource = listaUltimosIngresos;
+            lvUltimosIngresos.DataBind();
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)

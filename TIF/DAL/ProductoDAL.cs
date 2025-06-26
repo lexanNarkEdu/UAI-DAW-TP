@@ -137,18 +137,55 @@ namespace DAL
 
             return _mapper.MapToEntity(dt.Rows[0]);
         }
+        public List<Producto> ObtenerBanner(int cantidad)
+        {
+            const string sql = @"
+                SELECT TOP (@cantidad)
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.producto_activo, p.condicion_id, p.producto_path_banner 
+                FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id 
+                WHERE p.producto_activo = 1 AND p.producto_es_banner = 1
+                ORDER BY p.producto_fecha_creacion DESC";
+            var parametros = new List<SqlParameter>
+                {
+                    new SqlParameter("@cantidad", cantidad)
+                };
+            var dt = _dao.Read(sql, parametros, CommandType.Text);
+            return _mapper.MapAll(dt).ToList();
+        }
 
         public List<Producto> ObtenerDestacados(int cantidad)
         {
             const string sql = @"
-                SELECT TOP @cantidad
+                SELECT TOP (@cantidad)
                     p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
-                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_path_banner
                 FROM Producto p 
                 INNER JOIN Categoria c
-                ON p.categoria_id = c.categoria_id
-                WHERE p.producto_activo = 1
+                ON p.categoria_id = c.categoria_id 
+                WHERE p.producto_activo = 1 AND p.producto_es_promocionado = 1
                 ORDER BY p.producto_fecha_creacion DESC";
+            var parametros = new List<SqlParameter>
+                {
+                    new SqlParameter("@cantidad", cantidad)
+                };
+            var dt = _dao.Read(sql, parametros, CommandType.Text);
+            return _mapper.MapAll(dt).ToList();
+        }
+
+        public List<Producto> ObtenerUltimosIngresos(int cantidad)
+        {
+            const string sql = @"
+                SELECT TOP (@cantidad)
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_path_banner 
+                FROM Producto p 
+                INNER JOIN Categoria c
+                ON p.categoria_id = c.categoria_id 
+                WHERE p.producto_activo = 1 
+                ORDER BY p.producto_fecha_creacion, p.producto_usuario_modificacion DESC";
             var parametros = new List<SqlParameter>
                 {
                     new SqlParameter("@cantidad", cantidad)

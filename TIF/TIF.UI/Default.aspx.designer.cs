@@ -15,6 +15,15 @@ namespace TIF.UI
     {
 
         /// <summary>
+        /// lvProductoBanner control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView lvProductoBanner;
+
+        /// <summary>
         /// lvProductos control.
         /// </summary>
         /// <remarks>
@@ -22,5 +31,14 @@ namespace TIF.UI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListView lvProductos;
+
+        /// <summary>
+        /// lvUltimosIngresos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView lvUltimosIngresos;
     }
 }

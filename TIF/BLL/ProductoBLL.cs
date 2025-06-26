@@ -41,10 +41,19 @@ namespace BLL
         {
             return _dal.ObtenerPorId(id);
         }
+        public List<Producto> ObtenerBanner(int cantidad = 3)
+        {
+            return _dal.ObtenerBanner(cantidad);
+        }
 
-        public List<Producto> ObtenerDestacados(int cantidad=3)
+        public List<Producto> ObtenerDestacados(int cantidad = 3)
         {
             return _dal.ObtenerDestacados(cantidad);
+        }
+
+        public List<Producto> ObtenerUltimosIngresos(int cantidad = 3)
+        {
+            return _dal.ObtenerUltimosIngresos(cantidad);
         }
 
         public void Agregar(Producto producto)

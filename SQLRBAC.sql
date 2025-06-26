@@ -37,4 +37,16 @@ ORDER BY
     c.column_id;
 
 
+UPDATE [dbo].[Producto]
+   SET
+      [producto_path_banner] = 'assets/img/Teclado-TIF 2025-01_51_32.png'
+      ,[producto_es_banner] = 1
+      ,[producto_usuario_modificacion] = 'om/5FIz2NEtGc2l86fLj3w=='
+ WHERE [producto_id] = 5 ;
+
+
+SELECT * FROM [DAW_DB].[dbo].[Producto];
+
+SELECT * FROM [DAW_DB].[dbo].[Categoria];
+
 

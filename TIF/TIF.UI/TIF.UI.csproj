@@ -103,6 +103,7 @@
     <Content Include="ABMProductos.aspx" />
     <Content Include="About.aspx" />
     <Content Include="ABMUsuarios.aspx" />
+    <Content Include="assets\css\tif.css" />
     <Content Include="Bitacora.aspx" />
     <Content Include="Tienda.aspx" />
     <Content Include="Default.aspx" />

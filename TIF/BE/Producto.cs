@@ -12,10 +12,12 @@ namespace BE
         public string Nombre { get; set; }
         public decimal Precio { get; set; }
         public string Foto { get; set; }
+
+        public string FotoBanner { get; set; }
         public string Descripcion { get; set; }
         public int Stock { get; set; }
         public int CategoriaId { get; set; }
-        
+
         public string CategoriaNombre { get; set; }
         public int CondicionId { get; set; }
         public bool Activo { get; set; }
@@ -54,6 +56,29 @@ namespace BE
             FechaCreacion = fechaCreacion;
             UsuarioCreacion = usuarioCreacion;
             VerificadorHorizontal = verificadorHorizontal;
+        }
+
+        public Producto(
+            int productoId,
+            string nombre,
+            decimal precio,
+            string foto,
+            string descripcion,
+            int stock,
+            int categoriaId,
+            string categoriaNombre,
+            string fotoBanner
+        )
+        {
+            ProductoId = productoId;
+            Nombre = nombre;
+            Precio = precio;
+            Foto = foto;
+            Descripcion = descripcion;
+            Stock = stock;
+            CategoriaId = categoriaId;
+            CategoriaNombre = categoriaNombre;
+            FotoBanner = fotoBanner;
         }
     }
 }
