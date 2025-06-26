@@ -4,7 +4,6 @@
 
     <div id="carouselProductosDestacados" class="carousel slide mt-1" data-bs-ride="carousel">
         <div class="carousel-inner">
-
             <asp:ListView ID="lvProductoBanner" runat="server" ItemPlaceholderID="itemPlaceholder">
                 <LayoutTemplate>
                     <div class="row">
@@ -24,33 +23,6 @@
                     <div class="alert alert-info">No hay productos para mostrar.</div>
                 </EmptyDataTemplate>
             </asp:ListView>
-
-            <!--
-            <div class="carousel-item active">
-                <img src="https://www.gezatek.com.ar/uploads/16-06-2025-12-06-29-27-05-2025-03-05-11-Banner-kingston.png" class="d-block w-100" alt="Notebook Gamer">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-10 rounded">
-                    <h5>Notebook Gamer</h5>
-                    <p>$ 650.000</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.gezatek.com.ar/uploads/17-06-2025-03-06-47-banner-principal.png" class="d-block w-100" alt="Mouse Gamer">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-10 rounded">
-                    <h5>Mouse Logitech G203</h5>
-                    <p>$ 12.999</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.gezatek.com.ar/uploads/17-06-2025-03-06-33-banner-principal-2.png" class="d-block w-100" alt="Monitor Samsung">
-                <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-10 rounded">
-                    <article style="width: 50%;">
-                        <h5>Monitor Samsung 24"</h5>
-                        <p>$ 98.000</p>
-                    </article>
-                </div>
-            </div>
-            -->
-
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductosDestacados" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

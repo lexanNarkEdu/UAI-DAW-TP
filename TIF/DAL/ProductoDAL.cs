@@ -75,9 +75,9 @@ namespace DAL
         {
             var sql = new StringBuilder(@"
                 SELECT
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto,
-                    p.producto_descripcion, p.producto_stock, p.categoria_id, c.categoria_nombre,
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion,
+                    p.producto_stock, p.categoria_id, c.categoria_nombre,p.condicion_id, p.producto_activo, 
+                    p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_path_banner
                 FROM Producto p
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id ");
