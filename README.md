@@ -19,11 +19,3 @@
 | BajarProducto            | ✅                 | ❌            | ❌           |
 | ModificarProducto        | ✅                 | ✅            | ❌           |
 | VerProductos             | ✅                 | ✅            | ✅           |
-
-
-### Productos
-
-- Banner
-- Promocionados
-- Ultimos ingresos
-- Categorias destacadas (Pueden ser dos)
