@@ -1,5 +1,6 @@
 ﻿using BE;
 using BLL;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,14 +31,11 @@ namespace TIF.UI
             {
                 CargarDropdowns();
                 string query = Request.QueryString["query"] ?? null;
-                if (query != null)
+                if (!string.IsNullOrWhiteSpace(query))
                 {
                     var lista = _productoBLL.ObtenerPorNombre(query.Trim());
                     lvProductos.DataSource = lista;
                     lvProductos.DataBind();
-
-                    //Request.QueryString["query"] = "";
-                    //idDataBuscarProducto.Text = query;
                     //lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
                 }
                 else
@@ -100,10 +98,9 @@ namespace TIF.UI
         {
             string query = Request.QueryString["query"] ?? null;
 
-            if (query == null && idDataBuscarProducto.Text == null)
+            if (string.IsNullOrWhiteSpace(query) && string.IsNullOrWhiteSpace(idDataBuscarProducto.Text))
             {
                 CargarProductos();
-
             }
             else
             {
