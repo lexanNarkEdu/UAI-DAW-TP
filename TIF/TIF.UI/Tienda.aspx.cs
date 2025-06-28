@@ -34,7 +34,9 @@ namespace TIF.UI
                     var lista = _productoBLL.ObtenerPorNombre(query.Trim());
                     lvProductos.DataSource = lista;
                     lvProductos.DataBind();
-                    lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
+                    //Request.QueryString["query"] = "";
+                    //idDataBuscarProducto.Text = query;
+                    //lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
                 }
                 else
                 {
@@ -89,12 +91,37 @@ namespace TIF.UI
             var lista = _productoBLL.ObtenerPorCategoriaYCondicion(categoriaId, condicionId, true);
             lvProductos.DataSource = lista;
             lvProductos.DataBind();
-            lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
+            //lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            CargarProductos();
+            string query = Request.QueryString["query"] ?? null;
+
+            if (query == null && idDataBuscarProducto.Text == null)
+            {
+                CargarProductos();
+
+            }
+            else
+            {
+                // Construir URL con parámetros de filtro
+                string url = "Tienda.aspx?";
+                List<string> parametros = new List<string>();
+
+                if (!string.IsNullOrEmpty(idDataBuscarProducto.Text.Trim()))
+                {
+                    parametros.Add($"query={HttpUtility.UrlEncode(idDataBuscarProducto.Text.Trim())}");
+                }
+
+                if (parametros.Count > 0)
+                {
+                    url += string.Join("&", parametros);
+                }
+
+                Response.Redirect(url, false);
+                Context.ApplicationInstance.CompleteRequest();
+            }
         }
 
         protected void btnLimpiarFiltros_Click(object sender, EventArgs e)

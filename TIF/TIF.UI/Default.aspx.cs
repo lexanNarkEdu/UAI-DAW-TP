@@ -33,17 +33,28 @@ namespace TIF.UI
 
         private void CargarProductos()
         {
-            var listaBanners = _productoBLL.ObtenerBanner();
-            lvProductoBanner.DataSource = listaBanners;
+            var productosHome = _productoBLL.ObtenerProductosParaHomeTipados();
+
+            lvProductoBanner.DataSource = productosHome.Banners;
             lvProductoBanner.DataBind();
 
-            var listaDestacados = _productoBLL.ObtenerDestacados();
-            lvProductos.DataSource = listaDestacados;
+            lvProductos.DataSource = productosHome.Destacados;
             lvProductos.DataBind();
 
-            var listaUltimosIngresos = _productoBLL.ObtenerUltimosIngresos();
-            lvUltimosIngresos.DataSource = listaUltimosIngresos;
+            lvUltimosIngresos.DataSource = productosHome.UltimosIngresos;
             lvUltimosIngresos.DataBind();
+
+            //var listaBanners = _productoBLL.ObtenerBanner();
+            //lvProductoBanner.DataSource = listaBanners;
+            //lvProductoBanner.DataBind();
+
+            //var listaDestacados = _productoBLL.ObtenerDestacados();
+            //lvProductos.DataSource = listaDestacados;
+            //lvProductos.DataBind();
+
+            //var listaUltimosIngresos = _productoBLL.ObtenerUltimosIngresos();
+            //lvUltimosIngresos.DataSource = listaUltimosIngresos;
+            //lvUltimosIngresos.DataBind();
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)

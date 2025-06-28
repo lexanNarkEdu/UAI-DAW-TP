@@ -104,6 +104,8 @@
     <Content Include="About.aspx" />
     <Content Include="ABMUsuarios.aspx" />
     <Content Include="assets\css\tif.css" />
+    <Content Include="assets\img\logoTIF.svg" />
+    <Content Include="assets\img\Teclado-TIF 2025-01_51_32-N.png" />
     <Content Include="Bitacora.aspx" />
     <Content Include="Tienda.aspx" />
     <Content Include="Default.aspx" />
@@ -301,7 +303,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="assets\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

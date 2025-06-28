@@ -45,8 +45,78 @@ UPDATE [dbo].[Producto]
  WHERE [producto_id] = 5 ;
 
 
-SELECT * FROM [DAW_DB].[dbo].[Producto];
+/* ------------------------------------------------------------------ 
+   --------------- STORE PROCEDURE DE LA HOME PAGE ------------------             
+   ------------------------------------------------------------------ */
+USE DAW_DB
 
-SELECT * FROM [DAW_DB].[dbo].[Categoria];
+GO
+
+CREATE PROCEDURE sp_ObtenerProductosParaHome
+    @cantidadBanner INT,
+    @cantidadDestacados INT,
+    @cantidadUltimosIngresos INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+     -- Banner
+    SELECT TOP (@cantidadBanner)
+        p.producto_id,
+        p.producto_nombre,
+        p.producto_precio,
+        p.producto_foto,
+        p.producto_descripcion,
+        p.producto_stock,
+        p.categoria_id,
+        c.categoria_nombre,
+        p.producto_activo,
+        p.condicion_id,
+        p.producto_path_banner
+    FROM Producto p
+    INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+    WHERE p.producto_activo = 1 AND p.producto_es_banner = 1
+    ORDER BY p.producto_fecha_creacion DESC;
+
+    -- Destacados
+    SELECT TOP (@cantidadDestacados)
+        p.producto_id,
+        p.producto_nombre,
+        p.producto_precio,
+        p.producto_foto,
+        p.producto_descripcion,
+        p.producto_stock,
+        p.categoria_id,
+        c.categoria_nombre,
+        p.condicion_id,
+        p.producto_activo,
+        p.producto_path_banner
+    FROM Producto p
+    INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+    WHERE p.producto_activo = 1 AND p.producto_es_promocionado = 1
+    ORDER BY p.producto_fecha_creacion DESC;
+
+    -- Últimos Ingresos
+    SELECT TOP (@cantidadUltimosIngresos)
+        p.producto_id,
+        p.producto_nombre,
+        p.producto_precio,
+        p.producto_foto,
+        p.producto_descripcion,
+        p.producto_stock,
+        p.categoria_id,
+        c.categoria_nombre,
+        p.condicion_id,
+        p.producto_activo,
+        p.producto_path_banner
+    FROM Producto p
+    INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+    WHERE p.producto_activo = 1 AND p.producto_es_banner != 1 AND p.producto_es_promocionado != 1
+    ORDER BY p.producto_fecha_creacion DESC;
+END
+
+EXEC sp_ObtenerProductosParaHome 
+    @cantidadBanner = 3, 
+    @cantidadDestacados = 4, 
+    @cantidadUltimosIngresos = 4;
 
 

@@ -1,16 +1,43 @@
 ﻿
 /* START Product card Lista de Productos */
+.shadow-xs {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .12);
+}
+
+.logo-tif {
+    width: 2.2rem;
+    height: 2.2rem;
+    background: url('../img/logoTIF.svg') no-repeat center center;
+    background-size: contain;
+}
+
 .bg-color-tif {
-    background-color: rgba(237,237,273,1);
+    background-color: #ebebeb;
+}
+
+.carousel-item img {
+    width: -webkit-fill-available;
+}
+
+.li-none {
+    list-style: none;
 }
 
 .product-card {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /*    transition: transform 0.2s ease, box-shadow 0.2s ease;*/
 }
 
     .product-card:hover {
         transform: scale(1.01);
     }
+
+        .product-card:hover h6 {
+            color: #3483fa !important;
+        }
+
+        .product-card:hover .descripcion {
+            color: #6ba6ff !important
+        }
 
 .thumbnail-container {
     position: relative;

@@ -24,13 +24,13 @@ namespace TIF.UI
         protected global::System.Web.UI.WebControls.Panel pnlFiltro;
 
         /// <summary>
-        /// lblcantidadProductosResultado control.
+        /// idDataBuscarProducto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblcantidadProductosResultado;
+        protected global::System.Web.UI.WebControls.TextBox idDataBuscarProducto;
 
         /// <summary>
         /// lblFiltroCategoria control.
@@ -85,6 +85,15 @@ namespace TIF.UI
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLimpiarFiltros;
+
+        /// <summary>
+        /// pnProductos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnProductos;
 
         /// <summary>
         /// lvProductos control.
