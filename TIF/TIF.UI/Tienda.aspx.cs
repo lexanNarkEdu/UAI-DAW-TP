@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -34,6 +35,7 @@ namespace TIF.UI
                     var lista = _productoBLL.ObtenerPorNombre(query.Trim());
                     lvProductos.DataSource = lista;
                     lvProductos.DataBind();
+
                     //Request.QueryString["query"] = "";
                     //idDataBuscarProducto.Text = query;
                     //lblcantidadProductosResultado.Text = $"{lista.Count} productos(s) encontrado(s)";
@@ -126,9 +128,7 @@ namespace TIF.UI
 
         protected void btnLimpiarFiltros_Click(object sender, EventArgs e)
         {
-            ddlFiltroCategorias.SelectedIndex = 0;
-            ddlFiltroCondiciones.SelectedIndex = 0;
-            CargarProductos();
+            Response.Redirect("Tienda.aspx", false);
         }
 
 
