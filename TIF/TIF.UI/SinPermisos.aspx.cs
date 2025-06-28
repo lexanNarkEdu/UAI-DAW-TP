@@ -17,9 +17,9 @@ namespace TIF.UI
         {
             // Mostrar usuario actual
             string usuarioActual = "Usuario no identificado";
-            if (Session["Username"] != null)
+            if (Session["UsuarioNombre"] != null)
             {
-                usuarioActual = Session["Username"].ToString();
+                usuarioActual = $"{Session["UsuarioNombre"]} {Session["UsuarioApellido"]}";
             }
             ltUsuarioActual.Text = usuarioActual;
 

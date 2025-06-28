@@ -24,6 +24,7 @@ namespace TIF.UI
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            usuarioTextbox.Attributes.Add("autofocus", "autofocus");
             if (Session["ExitoRegistro"] != null) {
                 Response.Write("<script>alert('"+ Session["ExitoRegistro"].ToString() + "');</script>");
             }
@@ -71,7 +72,16 @@ namespace TIF.UI
                 Session["UsuarioCorreo"] = usuario.Email;
                 Session["UsuarioRol"] = usuario.ListaDePermisos[0].Nombre;
                 Session["UsuarioPermisos"] = usuario.ListaDePermisos;
-                Response.Redirect("Home.aspx", false);
+
+                if (usuario.ListaDePermisos[0].Nombre == "Cliente")
+                {
+                    Response.Redirect("Tienda.aspx", false);
+                }
+                else
+                {
+                    Response.Redirect("Home.aspx", false);
+                }
+
             }
             catch (Exception ex)
             {

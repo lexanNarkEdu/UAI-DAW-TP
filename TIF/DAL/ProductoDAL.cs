@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
@@ -24,8 +25,8 @@ namespace DAL
         {
             const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id,
+                    c.categoria_nombre, p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
                 FROM Producto p 
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id
@@ -35,34 +36,120 @@ namespace DAL
             return _mapper.MapAll(dt).ToList();
         }
 
+        //public List<Producto> ObtenerTodosActivos()
+        //{
+        //    const string sql = @"
+        //        SELECT 
+        //            p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+        //            c.categoria_nombre, p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+        //        FROM Producto p 
+        //        INNER JOIN Categoria c
+        //        ON p.categoria_id = c.categoria_id
+        //        WHERE p.producto_activo = 1 
+        //        ORDER BY p.producto_fecha_creacion DESC";
+
+        //    DataTable dt = _dao.Read(sql, commandType: CommandType.Text);
+        //    return _mapper.MapAll(dt).ToList();
+        //}
         public List<Producto> ObtenerTodosActivos()
         {
             const string sql = @"
+		SELECT 
+			p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+			c.categoria_nombre, p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+		FROM Producto p 
+		INNER JOIN Categoria c
+		ON p.categoria_id = c.categoria_id
+		WHERE p.producto_activo = 1 
+		ORDER BY p.producto_fecha_creacion DESC";
+
+            using (var dao = new DAOu())
+            {
+                DataSet ds = dao.ExecuteDataSet(
+                    commandText: sql,
+                    parameters: null,
+                    commandType: CommandType.Text
+                );
+
+                if (ds == null)
+                    return new List<Producto>();
+
+                DataTable dt = ds.Tables[0];
+
+                return _mapper.MapAll(dt).ToList();
+            }
+        }
+
+        //public List<Producto> ObtenerPorNombre(string query)
+        //{
+        //    const string sql = @"
+        //        SELECT 
+        //            p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion,
+        //            p.producto_stock, p.categoria_id, c.categoria_nombre, p.condicion_id, p.producto_activo, 
+        //            p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_path_banner
+        //        FROM Producto p 
+        //        INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+        //        WHERE p.producto_activo = 1 AND 
+        //        ( LOWER(p.producto_nombre) LIKE @query OR LOWER(p.producto_descripcion) LIKE @query OR LOWER(c.categoria_nombre) LIKE @query )
+        //        ORDER BY p.producto_fecha_creacion DESC";
+
+        //    var parametros = new List<SqlParameter>
+        //    {
+        //        new SqlParameter("@Query", $"%{query}%")
+        //    };
+
+        //    var dt = _dao.Read(sql, parametros, CommandType.Text);
+        //    return _mapper.MapAll(dt).ToList();
+        //}
+
+        public List<Producto> ObtenerPorNombre(string query)
+        {
+            const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion,
+                    p.producto_stock, p.categoria_id, c.categoria_nombre, p.condicion_id, p.producto_activo, 
+                    p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_path_banner
                 FROM Producto p 
-                INNER JOIN Categoria c
-                ON p.categoria_id = c.categoria_id
-                WHERE p.producto_activo = 1 
+                INNER JOIN Categoria c ON p.categoria_id = c.categoria_id
+                WHERE p.producto_activo = 1 AND 
+                ( LOWER(p.producto_nombre) LIKE @query OR LOWER(p.producto_descripcion) LIKE @query OR LOWER(c.categoria_nombre) LIKE @query )
                 ORDER BY p.producto_fecha_creacion DESC";
 
-            DataTable dt = _dao.Read(sql, commandType: CommandType.Text);
-            return _mapper.MapAll(dt).ToList();
+            var parametros = new Dictionary<string, object>
+                {
+                    { "@query", $"%{query.ToLower()}%" }
+                };
+
+            using (var dao = new DAOu())
+            {
+                DataSet ds = dao.ExecuteDataSet(
+                    commandText: sql,
+                    parameters: parametros,
+                    commandType: CommandType.Text
+                );
+
+                if (ds == null)
+                    return new List<Producto>();
+
+                DataTable dt = ds.Tables[0];
+
+                return _mapper.MapAll(dt).ToList();
+            }
         }
 
         public List<Producto> ObtenerPorCategoria(int categoriaId)
         {
             const string sql = @"
                 SELECT 
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, categoria_id, 
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+                    c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion 
                 FROM Producto p 
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id
                 WHERE p.producto_activo = 1
                 AND p.categoria_id = @CategoriaId
                 ORDER BY p.producto_fecha_creacion DESC";
+
             var parametros = new List<SqlParameter>
                 {
                     new SqlParameter("@CategoriaId", categoriaId)
@@ -75,9 +162,9 @@ namespace DAL
         {
             var sql = new StringBuilder(@"
                 SELECT
-                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto,
-                    p.producto_descripcion, p.producto_stock, p.categoria_id, c.categoria_nombre,
-                    p.condicion_id, p.producto_activo, p.producto_fecha_creacion, p.producto_usuario_creacion
+                    p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion,
+                    p.producto_stock, p.categoria_id, c.categoria_nombre,p.condicion_id, p.producto_activo, 
+                    p.producto_fecha_creacion, p.producto_usuario_creacion, p.producto_path_banner
                 FROM Producto p
                 INNER JOIN Categoria c
                 ON p.categoria_id = c.categoria_id ");
@@ -138,6 +225,93 @@ namespace DAL
             return _mapper.MapToEntity(dt.Rows[0]);
         }
 
+        //public List<Producto> ObtenerBanner(int cantidad)
+        //{
+        //    const string sql = @"
+        //        SELECT TOP (@cantidad)
+        //            p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+        //            c.categoria_nombre, p.producto_activo, p.condicion_id, p.producto_path_banner 
+        //        FROM Producto p 
+        //        INNER JOIN Categoria c
+        //        ON p.categoria_id = c.categoria_id 
+        //        WHERE p.producto_activo = 1 AND p.producto_es_banner = 1
+        //        ORDER BY p.producto_fecha_modificacion, p.producto_fecha_creacion DESC";
+        //    var parametros = new List<SqlParameter>
+        //        {
+        //            new SqlParameter("@cantidad", cantidad)
+        //        };
+        //    var dt = _dao.Read(sql, parametros, CommandType.Text);
+        //    return _mapper.MapAll(dt).ToList();
+        //}
+
+        //public List<Producto> ObtenerDestacados(int cantidad)
+        //{
+        //    const string sql = @"
+        //        SELECT TOP (@cantidad)
+        //            p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+        //            c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_path_banner
+        //        FROM Producto p 
+        //        INNER JOIN Categoria c
+        //        ON p.categoria_id = c.categoria_id 
+        //        WHERE p.producto_activo = 1 AND p.producto_es_promocionado = 1
+        //        ORDER BY p.producto_fecha_creacion DESC";
+        //    var parametros = new List<SqlParameter>
+        //        {
+        //            new SqlParameter("@cantidad", cantidad)
+        //        };
+        //    var dt = _dao.Read(sql, parametros, CommandType.Text);
+        //    return _mapper.MapAll(dt).ToList();
+        //}
+
+        //public List<Producto> ObtenerUltimosIngresos(int cantidad)
+        //{
+        //    const string sql = @"
+        //        SELECT TOP (@cantidad)
+        //            p.producto_id, p.producto_nombre, p.producto_precio, p.producto_foto, p.producto_descripcion, p.producto_stock, p.categoria_id, 
+        //            c.categoria_nombre, p.condicion_id, p.producto_activo, p.producto_path_banner 
+        //        FROM Producto p 
+        //        INNER JOIN Categoria c
+        //        ON p.categoria_id = c.categoria_id 
+        //        WHERE p.producto_activo = 1 
+        //        ORDER BY p.producto_fecha_creacion, p.producto_usuario_modificacion DESC";
+        //    var parametros = new List<SqlParameter>
+        //        {
+        //            new SqlParameter("@cantidad", cantidad)
+        //        };
+        //    var dt = _dao.Read(sql, parametros, CommandType.Text);
+        //    return _mapper.MapAll(dt).ToList();
+        //}
+
+        public (List<Producto> Banners, List<Producto> Destacados, List<Producto> UltimosIngresos)
+        ObtenerProductosParaHomeTipados(int cantBanner, int cantDestacados, int cantUltimosIngresos)
+        {
+            using (var dao = new DAOu())
+            {
+                var parametros = new Dictionary<string, object>
+            {
+                { "@cantidadBanner", cantBanner },
+                { "@cantidadDestacados", cantDestacados },
+                { "@cantidadUltimosIngresos", cantUltimosIngresos }
+            };
+
+                var ds = dao.ExecuteDataSet(
+                    "sp_ObtenerProductosParaHome",
+                    parametros,
+                    CommandType.StoredProcedure
+                );
+
+
+                if (ds.Tables.Count > 3)
+                    return (new List<Producto>(), new List<Producto>(), new List<Producto>());
+
+                var dsBanners = _mapper.MapAll(ds.Tables[0]).ToList();
+                var dsDestacados = _mapper.MapAll(ds.Tables[1]).ToList();
+                var dsUltimosIngresos = _mapper.MapAll(ds.Tables[2]).ToList();
+
+                return (dsBanners, dsDestacados, dsUltimosIngresos);
+            }
+        }
+
         public int Agregar(Producto producto)
         {
             const string sql = @"
@@ -189,7 +363,7 @@ namespace DAL
                     producto_usuario_modificacion = @UsuarioModificacion
                 WHERE producto_id = @Id";
 
-                var parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
                 {
                     _dao.CreateParameter("@Id", producto.ProductoId),
                     _dao.CreateParameter("@Nombre", producto.Nombre),
@@ -215,7 +389,7 @@ namespace DAL
                     producto_fecha_eliminacion = GETDATE()
                 WHERE producto_id = @Id";
 
-                    var parametros = new List<SqlParameter>
+            var parametros = new List<SqlParameter>
             {
                 _dao.CreateParameter("@Id", id),
                 _dao.CreateParameter("@UsuarioEliminacion", usuarioEliminacion)

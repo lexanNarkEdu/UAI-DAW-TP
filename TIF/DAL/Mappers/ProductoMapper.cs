@@ -22,13 +22,14 @@ namespace DAL.Mappers
                 Nombre = row["producto_nombre"].ToString(),
                 Precio = Convert.ToDecimal(row["producto_precio"]),
                 Foto = row["producto_foto"].ToString(),
+                FotoBanner = row["producto_path_banner"].ToString(),
                 Descripcion = row["producto_descripcion"].ToString(),
                 Stock = Convert.ToInt32(row["producto_stock"]),
                 CategoriaId = Convert.ToInt32(row["categoria_id"]),
                 CondicionId = Convert.ToInt32(row["condicion_id"]),
                 Activo = Convert.ToBoolean(row["producto_activo"]),
-                FechaCreacion = Convert.ToDateTime(row["producto_fecha_creacion"]),
-                UsuarioCreacion = row["producto_usuario_creacion"].ToString(),
+                //FechaCreacion = Convert.ToDateTime(row["producto_fecha_creacion"]),
+                //UsuarioCreacion = row["producto_usuario_creacion"].ToString(),
                 //VerificadorHorizontal = row["producto_verificador_horizontal"].ToString()
                 CategoriaNombre = categoria.Nombre,
             };

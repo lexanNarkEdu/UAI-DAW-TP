@@ -26,6 +26,12 @@ namespace BLL
         {
             return _dal.ObtenerTodosActivos();
         }
+        
+        public List<Producto> ObtenerPorNombre(string query)
+        {
+            query = query.ToLower();
+            return _dal.ObtenerPorNombre(query);
+        }
 
         public List<Producto> ObtenerPorCategoria(int categoriaId)
         {
@@ -41,6 +47,26 @@ namespace BLL
         {
             return _dal.ObtenerPorId(id);
         }
+        //public List<Producto> ObtenerBanner(int cantidad = 3)
+        //{
+        //    return _dal.ObtenerBanner(cantidad);
+        //}
+
+        //public List<Producto> ObtenerDestacados(int cantidad = 4)
+        //{
+        //    return _dal.ObtenerDestacados(cantidad);
+        //}
+
+        //public List<Producto> ObtenerUltimosIngresos(int cantidad = 4)
+        //{
+        //    return _dal.ObtenerUltimosIngresos(cantidad);
+        //}
+
+        public (List<Producto> Banners, List<Producto> Destacados, List<Producto> UltimosIngresos) ObtenerProductosParaHomeTipados(int cantidadBanner = 3, int cantidadDestacados = 6, int cantidadUltimosIngresos = 6)
+        {
+            return _dal.ObtenerProductosParaHomeTipados(cantidadBanner, cantidadDestacados, cantidadUltimosIngresos);
+        }
+        
 
         public void Agregar(Producto producto)
         {

@@ -8,8 +8,14 @@
 
 ## Tabla de Permisos por Rol
 
-| **Rol**           | GestionarBitacoraEventos | GestionarBitacoraCambios | GestionarBackup | ABMUsuarios | ABMProductos | AgregarProducto | BajarProducto | ModificarProducto |  VerProductos |
-| ----------------- | ------------------------ | ------------------------ | --------------- | ----------- | ------------ | --------------- | ------------- | ----------------- | ------------ |
-| **Administrador** | ✅                        | ✅                        | ✅               | ✅           | ✅            | ✅               | ✅             | ✅                 | ✅            |
-| **Operador**      | ❌                        | ❌                        | ❌               | ❌           | ✅            | ✅               | ❌             | ✅                 | ✅            |
-| **Cliente**       | ❌                        | ❌                        | ❌               | ❌           | ❌            | ❌               | ❌             | ❌                 | ✅            |
+| **Permiso**              | **Administrador** | **Operador** | **Cliente** |
+| ------------------------ | ----------------- | ------------ | ----------- |
+| GestionarBitacoraEventos | ✅                 | ❌            | ❌           |
+| GestionarBitacoraCambios | ✅                 | ❌            | ❌           |
+| GestionarBackup          | ✅                 | ❌            | ❌           |
+| ABMUsuarios              | ✅                 | ❌            | ❌           |
+| ABMProductos             | ✅                 | ✅            | ❌           |
+| AgregarProducto          | ✅                 | ✅            | ❌           |
+| BajarProducto            | ✅                 | ❌            | ❌           |
+| ModificarProducto        | ✅                 | ✅            | ❌           |
+| VerProductos             | ✅                 | ✅            | ✅           |
