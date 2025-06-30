@@ -46,14 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="AdminBLL.cs" />
-=======
     <Compile Include="BitacoraBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="EventoBLL.cs" />
     <Compile Include="ProductoBLL.cs" />
->>>>>>> main
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Permisos\PermisoBLL.cs" />
     <Compile Include="RoLBLL.cs" />

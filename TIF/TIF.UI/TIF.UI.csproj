@@ -102,9 +102,7 @@
   <ItemGroup>
     <Content Include="ABMProductos.aspx" />
     <Content Include="About.aspx" />
-<<<<<<< HEAD
     <Content Include="BackupPanel.aspx" />
-=======
     <Content Include="ABMUsuarios.aspx" />
     <Content Include="assets\css\tif.css" />
     <Content Include="assets\img\logoTIF.svg" />
@@ -112,7 +110,6 @@
     <Content Include="Bitacora.aspx" />
     <Content Include="Tienda.aspx" />
     <Content Include="Default.aspx" />
->>>>>>> main
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -213,14 +210,12 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-<<<<<<< HEAD
     <Compile Include="BackupPanel.aspx.cs">
       <DependentUpon>BackupPanel.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BackupPanel.aspx.designer.cs">
       <DependentUpon>BackupPanel.aspx</DependentUpon>
-=======
     <Compile Include="ABMUsuarios.aspx.cs">
       <DependentUpon>ABMUsuarios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -249,7 +244,6 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
->>>>>>> main
     </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
