@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 512 512">
+  <rect x="64" y="128" width="384" height="320" rx="48" fill="#999"/>
+  <path d="M128 128v-48a128 128 0 0 1 256 0v48h-48v-48a80 80 0 0 0-160 0v48z" fill="#999"/>
+  <text x="50%" y="60%" font-size="200" fill="white" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" alignment-baseline="middle">TIF</text>
+</svg>

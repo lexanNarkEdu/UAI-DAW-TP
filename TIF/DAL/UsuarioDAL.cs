@@ -1,18 +1,35 @@
-﻿using System;
+﻿using BE;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using BE;
 using System.Threading.Tasks;
 
 namespace DAL
 {
     public class UsuarioDAL
     {
+        internal AccesoBDDAL acceso = new AccesoBDDAL();
 
+        public List<UsuarioBE> buscar(UsuarioBE entidad)
+        {
+            List<UsuarioBE> usuarios = new List<UsuarioBE>();
 
-        public static Usuario obtenerUsuario(string username)
+            acceso.AbrirConexion();
+            string commandText = $"SELECT * FROM Usuario WHERE usuario_username = '{entidad.Username}' AND usuario_password = '{entidad.Password}'";
+            DataTable tabla = acceso.Leer(commandText, null, false);
+            acceso.CerrarConexion();
+
+            foreach (DataRow dr in tabla.Rows)
+            {
+                usuarios.Add(ValorizarEntidad(dr));
+            }
+            return usuarios;
+        }
+
+        public UsuarioBE obtenerUsuarioConUsername(string username)
         {
             string commandText = "" +
             "SELECT " +
@@ -28,60 +45,114 @@ namespace DAL
             "FROM Usuario " +
             "WHERE usuario_username = '" + username + "'";
 
-            DAO miDAO = DAO.GetDAO();
+            acceso.AbrirConexion();
+            DataTable tabla = acceso.Leer(commandText, null, false);
+            acceso.CerrarConexion();
 
-            DataSet dataSet = miDAO.ExecuteDataSet(commandText);
-
-            if (dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
-            {
-                return ValorizarEntidad(dataSet.Tables[0].Rows[0]);
+            if (tabla.Rows.Count > 0) {
+                return ValorizarEntidad(tabla.Rows[0]);
             }
             else
             {
                 return null;
             }
+        }
+
+        public bool GuardarUsuario(UsuarioBE usuario, string rol)
+        {
+            string commandText = "" +
+            "INSERT INTO Usuario (" +
+                "usuario_username, " +
+                "usuario_password, " +
+                "usuario_nombre, " +
+                "usuario_apellido, " +
+                "usuario_dni, " +
+                "usuario_email, " +
+                "usuario_domicilio, " +
+                "usuario_fallos_autenticacion_consecutivos, " +
+                "usuario_bloqueado, " +
+                "usuario_fecha_creacion, " +
+                "usuario_verificador_horizontal" +
+            ") " +
+            "VALUES ('" +
+                usuario.Username + "', '" +
+                usuario.Password + "', '" +
+                usuario.Nombre + "', '" +
+                usuario.Apellido + "', " +
+                usuario.Dni + ", '" +
+                usuario.Email + "', '" +
+                usuario.Domicilio + "', " +
+                usuario.FallosAutenticacionConsecutivos + ", '" +
+                usuario.Bloqueado.ToString() + "', " +
+                "GETDATE(), " +
+                5 +
+            ")";
+
+            acceso.AbrirConexion();
+            int r = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
+
+            if (r < 0)
+            {
+                return false;
+            }
+
+            commandText = "" +
+            "INSERT INTO Usuario_Permiso (" +
+                "usuario_username," +
+                "permiso_id" +
+            ") " +
+            "VALUES ('" +
+                usuario.Username + "', '" +
+                rol +
+            "')";
+
+            acceso.AbrirConexion();
+            r = acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
+
+            return r>=0;
 
         }
 
-        public static void loginInvalido(Usuario usuario)
+        public void loginInvalido(UsuarioBE usuario)
         {
             string commandText = "" +
             "UPDATE Usuario " +
             "SET usuario_fallos_autenticacion_consecutivos = usuario_fallos_autenticacion_consecutivos + 1, " +
                 "usuario_bloqueado = '" + usuario.Bloqueado.ToString() + "' " +
             "WHERE usuario_username = '" + usuario.Username + "'";
-            
-            DAO miDAO = DAO.GetDAO();
-            miDAO.ExecuteNonQuery(commandText);
+
+            acceso.AbrirConexion();
+            acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
         }
 
-        public static void loginValido(Usuario usuario)
+        public void loginValido(UsuarioBE usuario)
         {
             string commandText = "" +
             "UPDATE Usuario " +
             "SET usuario_fallos_autenticacion_consecutivos = 0 " +
             "WHERE usuario_username = '" + usuario.Username + "'";
 
-            DAO miDAO = DAO.GetDAO();
-            miDAO.ExecuteNonQuery(commandText);
+            acceso.AbrirConexion();
+            acceso.Escribir(commandText, null, false);
+            acceso.CerrarConexion();
         }
 
-        internal static Usuario ValorizarEntidad(DataRow pDataRow)
+        internal UsuarioBE ValorizarEntidad(DataRow pDataRow)
         {
             string usuario_username = pDataRow["usuario_username"].ToString();
             string usuario_nombre = pDataRow["usuario_nombre"].ToString();
-            string usuario_apellido = pDataRow["usuario_apellido"].ToString();  
-            int usuario_dni = int.Parse(pDataRow["usuario_dni"].ToString());    
+            string usuario_apellido = pDataRow["usuario_apellido"].ToString();
+            int usuario_dni = int.Parse(pDataRow["usuario_dni"].ToString());
             string usuario_email = pDataRow["usuario_email"].ToString();
             int usuario_fallos_autenticacion_consecutivos = int.Parse(pDataRow["usuario_fallos_autenticacion_consecutivos"].ToString());
-            bool usuario_bloqueado = bool.Parse(pDataRow["usuario_bloqueado"].ToString()); 
+            bool usuario_bloqueado = bool.Parse(pDataRow["usuario_bloqueado"].ToString());
             string usuario_domicilio = pDataRow["usuario_domicilio"].ToString();
             string usuario_password = pDataRow["usuario_password"].ToString();
 
-            return new Usuario(usuario_username, usuario_password, usuario_nombre, usuario_apellido, usuario_dni, usuario_email, usuario_domicilio, usuario_fallos_autenticacion_consecutivos, usuario_bloqueado);
-
+            return new UsuarioBE(usuario_username, usuario_password, usuario_nombre, usuario_apellido, usuario_dni, usuario_email, usuario_domicilio, usuario_fallos_autenticacion_consecutivos, usuario_bloqueado);
         }
-
     }
-
 }
