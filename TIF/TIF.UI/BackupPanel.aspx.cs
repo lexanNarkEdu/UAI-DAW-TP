@@ -1,4 +1,5 @@
-﻿using BLL;
+﻿using BE.Permisos;
+using BLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace TIF.UI
     {
         private AdminBLL adminBll = new AdminBLL();
 
+        private RoLBLL rolBll = new RoLBLL();
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -20,7 +23,7 @@ namespace TIF.UI
         protected void btnBackup_Click(object sender, EventArgs e)
         {
             lblResult.ForeColor = System.Drawing.Color.Red;
-            bool isWebMaster = true;
+            bool isWebMaster = rolBll.EstaPermisoEnRol(Session["UsuarioPermisos"] as List<PermisoBE>, PermisoENUMBE.GestionarBackup);
             if (!isWebMaster)
             {
                 lblResult.Text = "No tiene permisos para realizar esta acción.";

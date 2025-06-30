@@ -11,10 +11,11 @@ namespace BLL
 {
     public class AdminBLL
     {
+        private readonly AdminDAL _adminDAL = new AdminDAL();
 
         public void backup(string dbName, string backupPath)
         {
-            DAO.GetDAO().backup(dbName, backupPath);
+            _adminDAL.backup(dbName, backupPath);
         }
     }
 }

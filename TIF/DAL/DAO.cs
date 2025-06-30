@@ -80,7 +80,7 @@ namespace DAL
             }
 
         }
-      
+
         public int ExecuteNonQuery(string pCommandText)
         {
             try
@@ -124,5 +124,6 @@ namespace DAL
                     miConnection.Close();
             }
         }
+
     }
 }
