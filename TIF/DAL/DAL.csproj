@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminDAL.cs" />
     <Compile Include="CategoriaDAL.cs" />
     <Compile Include="DAO.Wrapped.cs" />
     <Compile Include="BaseMapper.cs" />

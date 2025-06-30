@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminBLL.cs" />
     <Compile Include="BitacoraBLL.cs" />
     <Compile Include="CategoriaBLL.cs" />
     <Compile Include="EventoBLL.cs" />
