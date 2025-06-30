@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Backup" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BackupPanel.aspx.cs" Inherits="TIF.UI.BackupPanel" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <main aria-labelledby="title">
+    <main aria-labelledby="title" class="container body-content">
         <h3>Backup de Base de Datos</h3>
         <div>
             <asp:Label ID="lblDatabaseName" runat="server" Text="Nombre de la Base de Datos:" AssociatedControlID="txtDatabaseName" />

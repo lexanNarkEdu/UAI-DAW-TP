@@ -24,7 +24,7 @@ namespace TIF.UI.Helpers
                     return PermisoENUMBE.BajarProducto;
                 case "/Bitacora":
                     return PermisoENUMBE.GestionarBitacoraEventos;
-                case "/Backup":
+                case "/BackupPanel":
                     return PermisoENUMBE.GestionarBackup;
                 default:
                     throw new NotSupportedException("No existe permiso especificado para dicha ruta");
